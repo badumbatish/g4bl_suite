@@ -24,7 +24,7 @@ param worldMaterial=Vacuum
 
 
 #BEAM
-beam gaussian meanMomentum=100 sigmaP=0 nEvents=100000 particle=pi- sigmaX=5 sigmaY=5 meanXp=0.0 meanYp=0.0 sigmaXp=.001 sigmaYp=.001 beamZ=16
+beam gaussian meanMomentum=100 sigmaP=0 nEvents=100000 particle=pi- sigmaX=-5 sigmaY=-5 meanXp=0.0 meanYp=0.0 sigmaXp=-.001 sigmaYp=-.001 beamZ=16
 
 
 

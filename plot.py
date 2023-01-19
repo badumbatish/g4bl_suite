@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import mpl_scatter_density
 from os.path import exists
 
 # add feature count
@@ -20,7 +21,7 @@ def add_file():
 
 data = add_file()
 
-def scatter_plot(axes,data,plot_type = "position"):
+def scatter_plot(axes,data,plot_type = "position", heat_map = False):
     # The second input of data[] is the column
     # 0: x position
     # 1: y position
@@ -32,7 +33,11 @@ def scatter_plot(axes,data,plot_type = "position"):
     elif plot_type == "momentum" :
         x = data[:,2]
         y = data[:,3]
-    axes.scatter(x,y, rasterized=False)
+    if(heat_map == False):
+        axes.scatter(x,y, rasterized=False)
+    else:
+        density = axes.scatter_density(x,y)
+        plt.colorbar(density, ax = axes, label='Number of points per pixel')
 
 def hist_plot(axes, data):
     for i in range(4):
@@ -46,20 +51,21 @@ def save_figure(fig, file_name, dpi=400):
     fig.savefig(file_name, dpi=dpi)
 
 beam_type = "normal"
-gaussian_position_fig, gaussian_position_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained")
+use_heat_map = True
+gaussian_position_fig, gaussian_position_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
 gaussian_position_fig.suptitle(f"{beam_type.capitalize()} beam position")
 gaussian_position_fig.supxlabel("x position")
 gaussian_position_fig.supylabel("y position")
-scatter_plot(gaussian_position_axes, data[0])
+scatter_plot(gaussian_position_axes, data[0], heat_map=use_heat_map)
 # gaussian_position_axes.set_title("Detector 1 (4mm away from beam source")
 save_figure(gaussian_position_fig, f"pics/{beam_type}_position.pdf")
 
 
-gaussian_momentum_fig, gaussian_momentum_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained")
+gaussian_momentum_fig, gaussian_momentum_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
 gaussian_momentum_fig.suptitle(f"{beam_type.capitalize()} beam momentum")
 gaussian_momentum_fig.supxlabel("x momentum")
 gaussian_momentum_fig.supylabel("y momentum")
-scatter_plot(gaussian_momentum_axes, data[0], plot_type="momentum")
+scatter_plot(gaussian_momentum_axes, data[0], plot_type="momentum", heat_map=use_heat_map)
 # gaussian_momentum_axes.set_title("Detector 1 (4mm away from beam source")
 save_figure(gaussian_momentum_fig,  f"pics/{beam_type}_momentum.pdf")
 

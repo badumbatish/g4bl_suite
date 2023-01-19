@@ -32,8 +32,8 @@ def scatter_plot(axes,data,plot_type = "position", heat_map = False):
         x = data[:,0]
         y = data[:,1]
     elif plot_type == "momentum" :
-        x = data[:,2]
-        y = data[:,3]
+        x = data[:,3]
+        y = data[:,4]
     if(heat_map == False):
         axes.scatter(x,y, rasterized=False)
     else:

@@ -7,6 +7,7 @@ from os.path import exists
 feature_count = 4
 
 # add feature name: x position, y postion and stuff
+# can be used for histogram
 feature_list = ["x", "y", "Xp", "Yp"]
 
 def add_file():
@@ -45,27 +46,29 @@ def hist_plot(axes, data):
         axes[i].set_xlabel(feature_list[i])
         axes[i].set_xticks
 
+def set_fig_misc(fig, beam_type, plot_type):
+    fig.suptitle((f"{beam_type.capitalize()} beam {plot_type}"))
+    fig.supxlabel(f"x {plot_type}")
+    fig.supylabel(f"y {plot_type}")
 
-def save_figure(fig, file_name, dpi=400):
+def save_figure(fig, file_name, dpi=300):
     fig.set_size_inches((8.5, 11), forward=False)
     fig.savefig(file_name, dpi=dpi)
 
 beam_type = "normal"
+plot_type = "position"
 use_heat_map = True
 gaussian_position_fig, gaussian_position_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
-gaussian_position_fig.suptitle(f"{beam_type.capitalize()} beam position")
-gaussian_position_fig.supxlabel("x position")
-gaussian_position_fig.supylabel("y position")
+set_fig_misc(gaussian_position_fig, beam_type=beam_type, plot_type=plot_type)
 scatter_plot(gaussian_position_axes, data[0], heat_map=use_heat_map)
 # gaussian_position_axes.set_title("Detector 1 (4mm away from beam source")
 save_figure(gaussian_position_fig, f"pics/{beam_type}_position.pdf")
 
-
+plot_type = "momentum"
 gaussian_momentum_fig, gaussian_momentum_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
-gaussian_momentum_fig.suptitle(f"{beam_type.capitalize()} beam momentum")
-gaussian_momentum_fig.supxlabel("x momentum")
-gaussian_momentum_fig.supylabel("y momentum")
-scatter_plot(gaussian_momentum_axes, data[0], plot_type="momentum", heat_map=use_heat_map)
+set_fig_misc(gaussian_position_fig, beam_type=beam_type, plot_type=plot_type)
+
+scatter_plot(gaussian_momentum_axes, data[0], plot_type=plot_type, heat_map=use_heat_map)
 # gaussian_momentum_axes.set_title("Detector 1 (4mm away from beam source")
 save_figure(gaussian_momentum_fig,  f"pics/{beam_type}_momentum.pdf")
 
@@ -73,5 +76,4 @@ save_figure(gaussian_momentum_fig,  f"pics/{beam_type}_momentum.pdf")
 gaussian_hist_fig, gaussian_hist_axes = plt.subplots(feature_count, sharey=True, layout="constrained")
 gaussian_hist_fig.supylabel("count")
 hist_plot(gaussian_hist_axes, data[0])
-gaussian_hist_fig.set_size_inches((8.5, 11), forward=False)
-gaussian_hist_fig.savefig(f"pics/{beam_type}_hist.pdf", dpi=500)
+save_figure(gaussian_hist_fig,f"pics/{beam_type}_hist.pdf")

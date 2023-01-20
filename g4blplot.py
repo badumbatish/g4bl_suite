@@ -10,6 +10,9 @@ feature_count = 4
 # can be used for histogram
 feature_list = ["x", "y", "Xp", "Yp"]
 
+particle_dict = {"pion-": -211,
+                "muons-": 13}
+
 def add_text_file(file_name):
     # returns a 2D numpy array that formats just like the output txt file from G4Beamline
     if(exists(file_name)):
@@ -50,6 +53,20 @@ def set_fig_misc(fig, beam_type, plot_type):
 def save_figure(fig, file_name, dpi=300):
     fig.set_size_inches((8.5, 11), forward=False)
     fig.savefig(file_name, dpi=dpi)
+
+# returns a numpy array
+# mu-, PID = 13
+# pi-, PID = -211
+def extract_particle_data(numpy_array, particle_name):
+    # make a 1D array mask that returns true if the PID is satisfy
+    # [:,7] represents the column of PIDs
+    mask = (numpy_array[:,7] == particle_dict[particle_name])
+
+    # pass the mask to the raw data to select the PID-satisfying rows, then : to select all the columns of that row
+
+    particle_data = numpy_array[mask,:]
+
+    return particle_data
 
 
 

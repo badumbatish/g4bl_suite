@@ -17,17 +17,12 @@ events = 100000
 print(f"Particle count: {particle_count} mu- make it out of initial {events} pions-")
 
 """set_fig_misc(gaussian_position_fig, beam_type=beam_type, plot_type=plot_type)
-scatter_plot(gaussian_position_axes, data[0], heat_map=use_heat_map)
+gaussian_position_fig, gaussian_position_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
+scatter_plot(gaussian_position_axes, data[0], heat_map=use_heat_map, x_axis )
 # gaussian_position_axes.set_title("Detector 1 (4mm away from beam source")
 save_figure(gaussian_position_fig, f"pics/{beam_type}_position.pdf")
 
-plot_type = "momentum"
-gaussian_momentum_fig, gaussian_momentum_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
-set_fig_misc(gaussian_position_fig, beam_type=beam_type, plot_type=plot_type)
 
-scatter_plot(gaussian_momentum_axes, data[0], plot_type=plot_type, heat_map=use_heat_map)
-# gaussian_momentum_axes.set_title("Detector 1 (4mm away from beam source")
-save_figure(gaussian_momentum_fig,  f"pics/{beam_type}_momentum.pdf")
 
 
 gaussian_hist_fig, gaussian_hist_axes = plt.subplots(feature_count, sharey=True, layout="constrained")

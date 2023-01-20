@@ -8,13 +8,13 @@
  
 # Must add kill=$kill_aperture to every element to use this feature.
 
-#param kill_aperture=0
+param kill_aperture=1
  
  
 
  
-physics QGSP_BERT disable=Decay
-#physics QGSP_BERT
+#physics QGSP_BERT disable=Decay
+physics QGSP_BERT
 
 
 #---------------------------- Define World and Beam -------------------------#
@@ -24,7 +24,8 @@ param worldMaterial=Vacuum
 
 
 #BEAM
-beam gaussian meanMomentum=100 sigmaP=0 nEvents=100000 particle=pi- sigmaX=-5 sigmaY=-5 meanXp=0.0 meanYp=0.0 sigmaXp=-.001 sigmaYp=-.001 beamZ=16
+
+beam ellipse meanMomentum=100 sigmaP=0 nEvents=100000 particle=pi- sigmaX=5 sigmaY=5 meanXp=0.0 meanYp=0.0 sigmaXp=.001 sigmaYp=.001 beamZ=16
 
 
 
@@ -66,33 +67,33 @@ param SOLmaxZ=64.0
 param SOLcurrent=158.2
 
 
-box Target width=$Tw height=$Th length=$Tl material=W color=1.0,0.75,0.0 \ 
+box Target width=$Tw height=$Th length=$Tl material=W color=1.0,0.75,0.0 kill=$kill_aperture \ 
 
 
 genericquad Quad2 fieldLength=$QUADfieldlength2 apertureRadius=$QUADapertureRadius ironLength=$QUADironLength2 \
 ironRadius=$QUADironRadius ironColor=0,0,1,.3 \
-gradient=$QUADgradient2 fringeFactor=10.0 
+gradient=$QUADgradient2 fringeFactor=10.0 kill=$kill_aperture
 
 
 genericquad Quad13 fieldLength=$QUADfieldlength13 apertureRadius=$QUADapertureRadius ironLength=$QUADironLength13 \
 ironRadius=$QUADironRadius ironColor=0,0,1,.3 \
-gradient=$QUADgradient13 fringeFactor=10.0 
+gradient=$QUADgradient13 fringeFactor=10.0 kill=$kill_aperture
+
+// coil does not permit kill parameter
+coil LLS innerRadius=$SOLinnerRadius outerRadius=$SOLouterRadius length=$SOLlength
+
+solenoid LomaLindaSolenoid coilName=LLS current=$SOLcurrent  color=1,0,0,.3 kill=$kill_aperture
 
 
-coil LLS innerRadius=$SOLinnerRadius outerRadius=$SOLouterRadius length=$SOLlength 
+tubs TargetToSolenoid material=STAINLESS-STEEL outerRadius=70.0 innerRadius=60.0 length=355.6  color=.2,.2,.2,.3 kill=$kill_aperture
 
-solenoid LomaLindaSolenoid coilName=LLS current=$SOLcurrent  color=1,0,0,.3
+tubs SolenoidToQUAD1 material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=231.45  color=.2,.2,.2,.3 kill=$kill_aperture
 
+tubs QUADGap material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=304.8  color=.2,.2,.2,.3 kill=$kill_aperture
 
-tubs TargetToSolenoid material=STAINLESS-STEEL outerRadius=70.0 innerRadius=60.0 length=355.6  color=.2,.2,.2,.3
+tubs QUAD3ToStraw material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=388.9  color=.2,.2,.2,.3 kill=$kill_aperture
 
-tubs SolenoidToQUAD1 material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=231.45  color=.2,.2,.2,.3
-
-tubs QUADGap material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=304.8  color=.2,.2,.2,.3
-
-tubs QUAD3ToStraw material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=388.9  color=.2,.2,.2,.3
-
-tubs Straw material=STAINLESS-STEEL outerRadius=17.525 innerRadius=15.875 length=585.2  color=.2,.2,.2,.3
+tubs Straw material=STAINLESS-STEEL outerRadius=17.525 innerRadius=15.875 length=585.2  color=.2,.2,.2,.3 kill=$kill_aperture
 
 
 
@@ -120,15 +121,14 @@ place QUAD3ToStraw rename=Q2Str z=5141.225
 place Straw z=5628.275
 
 #---------------------- Place Virtual Detectors -----------------------#
-
-place Det rename=detector1 z=20
+place Det rename=positive_ellipse_detector_1 z=20
 #place Det rename=detector2 z=732.55
 #place Det rename=detector3 z=1961.25
 #place Det rename=detector4 z=3565
 #place Det rename=detector5 z=3718.575
 #place Det rename=detector6 z=4947.275
 #place Det rename=detector7 z=5921.375
-place Det rename=detector8 z=5921
+place Det rename=positive_ellipse_detector_8 z=5921
 #zntuple z=17
 #zntuple z=732.05
 #zntuple z=1960.75

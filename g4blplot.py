@@ -9,10 +9,10 @@ feature_count = 4
 # add feature name: x position, y postion and stuff
 # can be used for histogram
 feature_list = ["x", "y", "z", "Px", "Py", "Pz", "t", "PDGid", "EventID", "TrackID", "ParentID", "Weight"]
-feature_dict = {key : value for (key,value) in enumerate(feature_list)} 
+feature_dict = {key : value for (value,key) in enumerate(feature_list)} 
 
-particle_dict = {"pion-": -211,
-                "muons-": 13}
+particle_dict = {"pi-": -211,
+                "mu-": 13}
 
 def add_text_file(file_name):
     """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and none if file does not exists
@@ -33,28 +33,26 @@ def add_text_file(file_name):
     else:
         return None
 
-def scatter_plot(axes,data, x_axis, y_axis, heat_map = False):
-    """ Scatter plot 
+def scatter_plot(axes, x_axis, y_axis, heat_map = False):
+    """ Scatter plot an axes based on 2 1D numpy array
     Parameters
     ----------
     axes : 
         an object subplot from matplotlib that is a  
     x_axis : 
-        a string that denotes what to plot on the x axis, possible string values depends on feature_list
+        1D array that denotes what to plot on the x axis
     y_axis : 
-        a string that denotes what to plot on the y axis, possible string values depends on feature_list
+        1D arra that denotes what to plot on the y axis
 
     Returns
     ----------
         Function returns nothing, only plots a graph to the axes
     """
-    x = data[:,feature_dict[x_axis]]
-    y = data[:,feature_dict[y_axis]]
 
     if(heat_map == False):
-        axes.scatter(x,y, rasterized=False)
+        axes.scatter(x_axis,y_axis, rasterized=False)
     else:
-        density = axes.scatter_density(x,y)
+        density = axes.scatter_density(x_axis,y_axis)
         plt.colorbar(density, ax = axes, label='Number of points per pixel')
 
 def hist_plot(axes, data):
@@ -156,3 +154,22 @@ def create_hist_plot():
     ----------
     """
     pass
+
+def get_xangle(data):
+    """
+        This function returns a 1D array consisting of xp = Px/Pz
+    """
+    Px = data[:,3]
+    Pz = data[:,5]
+
+    return Px/Pz
+
+
+def get_xangle(data):
+    """
+        This function returns a 1D array consisting of yp = Py/Pz
+    """
+    Py = data[:,4]
+    Pz = data[:,5]
+
+    return Py/Pz

@@ -24,8 +24,20 @@ param worldMaterial=Vacuum
 
 
 #BEAM
-
-beam ellipse meanMomentum=100 sigmaP=0 nEvents=100000 particle=pi- sigmaX=5 sigmaY=5 meanXp=0.0 meanYp=0.0 sigmaXp=.001 sigmaYp=.001 beamZ=16
+# Ellipse beam only takes X, Xp, Y, Yp,  T,E 
+# Xp is x prime, which is decay angle
+param _meanMomentum=100
+param _sigmaP=20
+param _nEvents=100000
+param _sigmaX=5
+param _sigmaY=5
+param _meanXp=0
+param _meanYp=0
+param _sigmaXp=0.001
+param _sigmaYp=0.001
+param _beamZ=16
+beam gaussian meanMomentum=$_meanMomentum sigmaP=$_sigmaP nEvents=100000 particle=pi- sigmaX=$_sigmaX sigmaY=$_sigmaY \\
+meanXp=$_meanXp meanYp=$_meanYp sigmaXp=$_sigmaXp sigmaYp=$_sigmaYp beamZ=$_beamZ
 
 
 
@@ -121,14 +133,14 @@ place QUAD3ToStraw rename=Q2Str z=5141.225
 place Straw z=5628.275
 
 #---------------------- Place Virtual Detectors -----------------------#
-place Det rename=positive_ellipse_detector_1 z=20
+place Det rename=5_detector_1 z=20
 #place Det rename=detector2 z=732.55
 #place Det rename=detector3 z=1961.25
 #place Det rename=detector4 z=3565
 #place Det rename=detector5 z=3718.575
 #place Det rename=detector6 z=4947.275
 #place Det rename=detector7 z=5921.375
-place Det rename=positive_ellipse_detector_8 z=5921
+place Det rename=5_detector_8 z=5921
 #zntuple z=17
 #zntuple z=732.05
 #zntuple z=1960.75
@@ -138,4 +150,4 @@ place Det rename=positive_ellipse_detector_8 z=5921
 #zntuple z=5920.85
 
 
-#profile zloop=0:6000:50 particle=pi- file=BeamEllipseTransport.txt
+#profile zloop=0:6000:50 particle=mu- require=True file=BeamEllipseTransport.txt

@@ -155,6 +155,9 @@ def create_hist_plot():
     """
     pass
 
+def get_feature(data, feature_name):
+    return data[:,feature_dict[feature_name]]
+    
 def get_xangle(data):
     """
         This function returns a 1D array consisting of xp = Px/Pz
@@ -165,7 +168,7 @@ def get_xangle(data):
     return Px/Pz
 
 
-def get_xangle(data):
+def get_yangle(data):
     """
         This function returns a 1D array consisting of yp = Py/Pz
     """

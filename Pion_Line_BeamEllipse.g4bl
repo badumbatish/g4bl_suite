@@ -24,21 +24,7 @@ param worldMaterial=Vacuum
 
 
 #BEAM
-# Ellipse beam only takes X, Xp, Y, Yp,  T,E 
-# Xp is x prime, which is decay angle
-param _meanMomentum=100
-param _sigmaP=20
-param _nEvents=100000
-param _sigmaX=5
-param _sigmaY=5
-param _meanXp=0
-param _meanYp=0
-param _sigmaXp=0.001
-param _sigmaYp=0.001
-param _beamZ=16
-beam gaussian meanMomentum=$_meanMomentum sigmaP=$_sigmaP nEvents=100000 particle=pi- sigmaX=$_sigmaX sigmaY=$_sigmaY \\
-meanXp=$_meanXp meanYp=$_meanYp sigmaXp=$_sigmaXp sigmaYp=$_sigmaYp beamZ=$_beamZ
-
+beam gaussian meanMomentum=100 sigmaP=20 nEvents=100000 particle=pi- sigmaX=5 sigmaY=5 meanXp=0 meanYp=0 sigmaXp=-.0050 sigmaYp=-.0050 beamZ=16
 
 
 # Only pay attention to the following particles (saves on calculation time) 
@@ -133,14 +119,14 @@ place QUAD3ToStraw rename=Q2Str z=5141.225
 place Straw z=5628.275
 
 #---------------------- Place Virtual Detectors -----------------------#
-place Det rename=5_detector_1 z=20
+#place Det rename=5_detector_1 z=20
 #place Det rename=detector2 z=732.55
 #place Det rename=detector3 z=1961.25
 #place Det rename=detector4 z=3565
 #place Det rename=detector5 z=3718.575
 #place Det rename=detector6 z=4947.275
 #place Det rename=detector7 z=5921.375
-place Det rename=5_detector_8 z=5921
+place Det rename=uniform_.0050_rad_detector_8 z=5921
 #zntuple z=17
 #zntuple z=732.05
 #zntuple z=1960.75

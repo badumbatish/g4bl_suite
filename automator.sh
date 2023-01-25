@@ -1,3 +1,24 @@
+g4bl_file="Pion_Line_BeamEllipse.g4bl"
+function turn_off_magnet() {
+    # turn magnet strength off
+    sed -i "" s/"param QUADgradient13=.*"/"param QUADgradient13=0"/ "$g4bl_file"
+    sed -i "" s/"param QUADgradient2=.*"/"param QUADgradient2=0"/ "$g4bl_file"
+
+    # turn solenoid current density off
+    sed -i "" s/"param SOLcurrent=.*"/"param SOLcurrent=0"/ "$g4bl_file"
+}
+
+function turn_on_magnet() {
+    # turn magnet strength off
+    sed -i "" s/"param QUADgradient13=.*"/"param QUADgradient13=0.140"/ "$g4bl_file"
+    sed -i "" s/"param QUADgradient2=.*"/"param QUADgradient2=-0.150"/ "$g4bl_file"
+
+    # turn solenoid current density off
+    sed -i "" s/"param SOLcurrent=.*"/"param SOLcurrent=158.2"/ "$g4bl_file"
+}
+
+turn_off_magnet
+
 for angle_step in {1..10}
 do
     #x = 'echo "0.0005*$angle_step" | bc'

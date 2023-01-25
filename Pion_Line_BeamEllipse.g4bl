@@ -49,11 +49,11 @@ param Tw=15 Th=30 Tl=30
 param Tm=W
 
 param QUADfieldlength13=1076.3
-param QUADgradient13=0.140
+param QUADgradient13=0
 param QUADironLength13=1076.3
 
 param QUADfieldlength2=1452.6
-param QUADgradient2=-0.155
+param QUADgradient2=0
 param QUADironLength2=1452.525
 
 param QUADapertureRadius=49.15
@@ -62,7 +62,7 @@ param SOLinnerRadius=20.0
 param SOLouterRadius=22.0
 param SOLlength=130.0
 param SOLmaxZ=64.0
-param SOLcurrent=158.2
+param SOLcurrent=0
 
 
 box Target width=$Tw height=$Th length=$Tl material=W color=1.0,0.75,0.0 kill=$kill_aperture \ 

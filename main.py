@@ -21,6 +21,7 @@ mu_count = np.asarray(mu_count)
 axes.set_xlabel("sigmaXp = sigmaYp")
 axes.set_ylabel("Count of mu- (out of 100000 initial pi-)")
 axes.set_xticks(angle)
+axes.set_title("With magnets and solenoid turned off")
 plt.scatter(angle, mu_count)
 
 plt.show()

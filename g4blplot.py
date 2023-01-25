@@ -176,3 +176,6 @@ def get_yangle(data):
     Pz = data[:,5]
 
     return Py/Pz
+
+def get_particle_count(data, particle_name):
+    return np.count_nonzero(data[:,7] == particle_dict[particle_name])

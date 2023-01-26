@@ -11,6 +11,25 @@ It doesn't use OOP, only functions. The function mostly manipulates 2D and 1D nu
 
     matplotlib
 
+## Set up
+
+### Set your virtual detector to output ascii text format
+
+*Before:*
+
+> virtualdetector Det radius=15.875 length=1 color=1,1,1 material=Vacuum
+
+
+*After:*
+> virtualdetector Det radius=15.875 length=1 color=1,1,1 material=Vacuum **format=ascii**
+
+### Set your output file name by placing your detector and renaming it
+*Before:*
+> place Det z=5921
+
+*After*:
+> place Det **rename=desired_file_name** z=5921
+
 ## Usage
 ```python
 import g4blplot as plot
@@ -21,7 +40,7 @@ import matplotlib.pyplot as plt
 particle_type = "pi-"
 
 # raw data that potentially encompass multiple particles
-raw_data = plot.add_text_file("")
+raw_data = plot.add_text_file("desired_file_name.txt")
 
 # get the data that is only related to pion-
 data = plot.extract_particle_data(raw_data, particle_type)

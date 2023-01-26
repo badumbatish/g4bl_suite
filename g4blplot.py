@@ -162,8 +162,8 @@ def get_xangle(data):
     """
         This function returns a 1D array consisting of xp = Px/Pz
     """
-    Px = data[:,particle_dict["Px"]]
-    Pz = data[:,particle_dict["Pz"]]
+    Px = data[:,feature_dict["Px"]]
+    Pz = data[:,feature_dict["Pz"]]
 
     return Px/Pz
 
@@ -172,10 +172,10 @@ def get_yangle(data):
     """
         This function returns a 1D array consisting of yp = Py/Pz
     """
-    Py = data[:,particle_dict["Py"]]
-    Pz = data[:,particle_dict["Pz"]]
+    Py = data[:,feature_dict["Py"]]
+    Pz = data[:,feature_dict["Pz"]]
 
     return Py/Pz
 
 def get_particle_count(data, particle_name):
-    return np.count_nonzero(data[:,7] == particle_dict[particle_name])
+    return np.count_nonzero(data[:,feature_dict["PDGid"]] == particle_dict[particle_name])

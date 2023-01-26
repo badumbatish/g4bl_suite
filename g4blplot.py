@@ -11,7 +11,7 @@ particle_dict = {"pi-": -211,
                 "mu-": 13}
 
 def add_text_file(file_name):
-    """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and none if file does not exists
+    """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and raise exception if file does not exists
 
     Parameters
     ----------

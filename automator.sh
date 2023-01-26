@@ -28,7 +28,7 @@ do
     echo "Updating Pion_Line_BeamEllipse.g4bl with new angle = -$angle"
     sed -i "" s/"beam.*"/"$str"/ Pion_Line_BeamEllipse.g4bl
 
-    detector_name="uniform_$angle\_rad_detector_8"
+    detector_name="off_uniform_$angle\_rad_detector_8"
     sed -i "" s/"place Det rename=.*_detector_8 z=5921"/"place Det rename=$detector_name z=5921"/ Pion_Line_BeamEllipse.g4bl
 
     echo "Running G4beamline with modified g4bl file"

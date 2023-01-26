@@ -126,7 +126,7 @@ place Straw z=5628.275
 #place Det rename=detector5 z=3718.575
 #place Det rename=detector6 z=4947.275
 #place Det rename=detector7 z=5921.375
-place Det rename=uniform_.0050_rad_detector_8 z=5921
+place Det rename=off_uniform_.0050_rad_detector_8 z=5921
 #zntuple z=17
 #zntuple z=732.05
 #zntuple z=1960.75

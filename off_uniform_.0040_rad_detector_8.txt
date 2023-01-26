@@ -1,4 +1,4 @@
-#BLTrackFile VirtualDetector/uniform_.0040_rad_detector_8
+#BLTrackFile VirtualDetector/off_uniform_.0040_rad_detector_8
 #x y z Px Py Pz t PDGid EventID TrackID ParentID Weight
 #mm mm mm MeV/c MeV/c MeV/c ns - - - - -
 0.0867355 12.932 5920.5 -0.0055399 0.0228955 105.533 32.6554 -211 7 1 0 1

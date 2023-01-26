@@ -31,7 +31,7 @@ def add_text_file(file_name):
         data = np.loadtxt(file_name)
         return data
     else:
-        return None
+        raise Exception(f"The file {file_name} does not exist")
 
 def scatter_plot(axes, x_axis, y_axis, heat_map = False):
     """ Scatter plot an axes based on 2 1D numpy array
@@ -109,7 +109,7 @@ def extract_particle_data(numpy_array, particle_name):
     """
     # make a 1D array mask that returns true if the PID is satisfy
     # [:,7] represents the column of PIDs
-    mask = (numpy_array[:,7] == particle_dict[particle_name])
+    mask = (numpy_array[:,feature_dict["PDGid"]] == particle_dict[particle_name])
 
     # pass the mask to the raw data to select the PID-satisfying rows, then : to select all the columns of that row
     particle_data = numpy_array[mask,:]

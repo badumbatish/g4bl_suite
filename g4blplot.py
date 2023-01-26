@@ -3,11 +3,7 @@ import numpy as np
 import mpl_scatter_density
 from os.path import exists
 
-# add feature count
-feature_count = 4
 
-# add feature name: x position, y postion and stuff
-# can be used for histogram
 feature_list = ["x", "y", "z", "Px", "Py", "Pz", "t", "PDGid", "EventID", "TrackID", "ParentID", "Weight"]
 feature_dict = {key : value for (value,key) in enumerate(feature_list)} 
 

@@ -162,8 +162,8 @@ def get_xangle(data):
     """
         This function returns a 1D array consisting of xp = Px/Pz
     """
-    Px = data[:,3]
-    Pz = data[:,5]
+    Px = data[:,particle_dict["Px"]]
+    Pz = data[:,particle_dict["Pz"]]
 
     return Px/Pz
 
@@ -172,8 +172,8 @@ def get_yangle(data):
     """
         This function returns a 1D array consisting of yp = Py/Pz
     """
-    Py = data[:,4]
-    Pz = data[:,5]
+    Py = data[:,particle_dict["Py"]]
+    Pz = data[:,particle_dict["Pz"]]
 
     return Py/Pz
 

@@ -1,4 +1,8 @@
-Python scripting library for plotting (and analyzing) G4Beamline program ascii output 
+Python scripting library for plotting (and analyzing) G4Beamline program ascii output.
+
+This library provides a soft interaction wall between G4Beamline and scientists. 
+
+It doesn't use OOP, only functions. The function mostly manipulates 2D and 1D numpy arrays under the hood and also returns numpy arrays that can be manipulated directly by scientists.
 
 ## Dependencies:
     numpy

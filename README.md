@@ -1,4 +1,4 @@
-Python scripts for plotting (and analyzing) G4Beamline program output
+Python scripting library for plotting (and analyzing) G4Beamline program ascii output 
 
 ## Dependencies:
     numpy
@@ -14,8 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-particle_type = "pion-"
-use_heat_map = False
+particle_type = "pi-"
 
 # raw data that potentially encompass multiple particles
 raw_data = plot.add_text_file("")
@@ -31,6 +30,6 @@ xp = plot.get_xangle(data)
 pos_fig, pos_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
 
 # scatter it
-pos_axes.scatter(x,xp)
+plot.scatter_plot(pos_axes, x, xp)
 plot.save_figure(pos_fig, "position vs angle.pdf")
 ```

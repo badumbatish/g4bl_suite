@@ -32,6 +32,7 @@ fig.supylabel("Normalized count of mu-")
 
 plt.scatter(angle, on_mu_count, c='b', marker="s", label='with magnets on')
 plt.scatter(angle, off_mu_count, c='r', marker="o", label='with magnets off')
+plt.xticks(angle)
 plt.legend(loc='upper left')
 plt.show()
 

@@ -8,7 +8,8 @@ feature_list = ["x", "y", "z", "Px", "Py", "Pz", "t", "PDGid", "EventID", "Track
 feature_dict = {key : value for (value,key) in enumerate(feature_list)} 
 
 particle_dict = {"pi-": -211,
-                "mu-": 13}
+                "mu-": 13,
+                "mu+": -13}
 
 def add_text_file(file_name):
     """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and raise exception if file does not exists

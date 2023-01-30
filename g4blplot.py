@@ -150,6 +150,8 @@ def run_command(args):
     result = subprocess.run(args,stdout=subprocess.DEVNULL)
 
 def generate_args(cmd: str, param_dict: dict, file_name: str):
+    """
+    """
     keys, values = param_dict.keys(), param_dict.values()
     keys = list(keys)
     values = list(values)
@@ -168,15 +170,10 @@ def generate_args(cmd: str, param_dict: dict, file_name: str):
 
     return args
 
-def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1):
+def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1, chunksize = 1):
     """
-    with mp.Pool(process_count) as p:
-        pass
     """
     args  = generate_args(cmd,param_dict, file_name)
 
     with mp.Pool(process_count) as p:
-        p.map(run_command,args)
-
-    
-    #run_command(lst)
+        p.map(run_command,args,chunksize=chunksize)

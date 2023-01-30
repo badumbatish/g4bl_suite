@@ -10,5 +10,5 @@ if __name__ == '__main__':
     plot.automate("/Applications/G4beamline-3.08.app/Contents/MacOS/g4bl", 
                     param_dict=param_dict,
                     file_name = "Pion_Line_BeamEllipse.g4bl",
-                    process_count=8)
+                    process_count=4,chunksize=4)
 

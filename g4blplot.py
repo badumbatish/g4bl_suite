@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import mpl_scatter_density
+import multiprocessing as mp
+import itertools
+import subprocess
 from os.path import exists
 
 
@@ -138,3 +141,33 @@ def get_yangle(data):
 
 def get_particle_count(data, particle_name):
     return np.count_nonzero(data[:,feature_dict["PDGid"]] == particle_dict[particle_name])
+
+def run_command(args):
+    """
+        Helper function for automate()
+    """
+    subprocess.run(args)
+
+def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1):
+    """
+    with mp.Pool(process_count) as p:
+        pass
+    """
+
+    keys, values = param_dict.keys(), param_dict.values()
+    keys = list(keys)
+    values = list(values)
+
+    combination =  list(itertools.product(*values))
+
+    for each_combination in combination:
+        lst = []
+        lst.append(cmd)
+        lst.append(file_name)
+        for i, value in enumerate(each_combination):
+            lst.append(f"{keys[i]}={each_combination[i]}")
+        print(lst)
+        subprocess.run(lst,stdout=subprocess.DEVNULL)
+
+    
+    #run_command(lst)

@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import mpl_scatter_density
 from os.path import exists
 

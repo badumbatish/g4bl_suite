@@ -92,9 +92,6 @@ def save_figure(fig, file_name, dpi=300):
     fig.set_size_inches((8.5, 11), forward=False)
     fig.savefig(file_name, dpi=dpi)
 
-# returns a numpy array
-# mu-, PID = 13
-# pi-, PID = -211
 def extract_particle_data(numpy_array, particle_name):
     """Extracts a numpy array of only a certain particle out of a raw data
 
@@ -112,45 +109,6 @@ def extract_particle_data(numpy_array, particle_name):
     particle_data = numpy_array[mask,:]
 
     return particle_data
-
-def get_rms_decay_angle():
-    """
-        This function calculates the rms decay angle from a numpy array 
-        Awaiting responses and directions from Chris and Carol
-
-    Parameters
-    ----------
-
-    Returns
-    ----------
-    """
-    # 
-    pass
-
-
-def create_scatter_plot():
-    """
-        This function creates a tuple consists of a figure and an array of subplots that is for scatter plotting
-
-    Parameters
-    ----------
-
-    Returns
-    ----------
-    """
-    pass
-
-def create_hist_plot():
-    """
-        This function creates a tuple consists of a figure and an array of subplots that is for histogram plotting
-
-    Parameters
-    ----------
-
-    Returns
-    ----------
-    """
-    pass
 
 def get_feature(data, feature_name):
     return data[:,feature_dict[feature_name]]

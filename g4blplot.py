@@ -146,20 +146,17 @@ def run_command(args):
     """
         Helper function for automate()
     """
-    subprocess.run(args)
+    print(f"Running {args}")
+    result = subprocess.run(args,stdout=subprocess.DEVNULL)
 
-def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1):
-    """
-    with mp.Pool(process_count) as p:
-        pass
-    """
-
+def generate_args(cmd: str, param_dict: dict, file_name: str):
     keys, values = param_dict.keys(), param_dict.values()
     keys = list(keys)
     values = list(values)
 
     combination =  list(itertools.product(*values))
 
+    args = []
     for each_combination in combination:
         lst = []
         lst.append(cmd)
@@ -167,7 +164,19 @@ def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1):
         for i, value in enumerate(each_combination):
             lst.append(f"{keys[i]}={each_combination[i]}")
         print(lst)
-        subprocess.run(lst,stdout=subprocess.DEVNULL)
+        args.append(lst)
+
+    return args
+
+def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1):
+    """
+    with mp.Pool(process_count) as p:
+        pass
+    """
+    args  = generate_args(cmd,param_dict, file_name)
+
+    with mp.Pool(process_count) as p:
+        p.map(run_command,args)
 
     
     #run_command(lst)

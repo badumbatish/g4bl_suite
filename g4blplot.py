@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import mpl_scatter_density
 from os.path import exists
 
@@ -52,22 +53,26 @@ def scatter_plot(axes, x_axis, y_axis, heat_map = False):
         density = axes.scatter_density(x_axis,y_axis)
         plt.colorbar(density, ax = axes, label='Number of points per pixel')
 
-def hist_plot(axes, data):
+def hist_plot(axes, data, xlabel=None):
     """
         This function plots histogram in the axes
 
     Parameters
     ----------
-    axes :
+    axes : an axe plot
 
-    data :
+    data : a 1D numpy array
 
-    Returns
+    Returns:
+    A historgram plot with extra descriptive data of count, mean, std, min, 25,50,75 percentile, and max.
     ----------
     """
-    for i in range(axes.size()):
-        axes[i].hist(data[:,i])
-        axes[i].set_xlabel(feature_list[i])
+    axes.hist(data)
+    if xlabel is not None:
+        axes.set_xlabel(xlabel)
+        axes.set_ylabel(f"Count of {xlabel}")
+    stats_str = f"Count: {data.size}\nMean: {data.mean():.3f}\nStd: {data.std():.3f}\nMin: {data.min()}\n25%: {np.percentile(data,25)}\n50%: {np.percentile(data,50)}\n75%: {np.percentile(data,75)}\nMax: {data.max()}"
+    axes.text(1.01,0.2, stats_str ,transform=plt.gca().transAxes)
 
 def set_fig_misc(fig, beam_type, plot_type):
     """Sets miscellaneous features of a figure

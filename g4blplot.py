@@ -119,22 +119,22 @@ def get_feature(data, feature_name):
     
 def get_xangle(data):
     """
-        This function returns a 1D array consisting of xp = Px/Pz
+        This function returns a 1D array consisting of xp = Px/Pz in milliradian
     """
     Px = data[:,feature_dict["Px"]]
     Pz = data[:,feature_dict["Pz"]]
 
-    return Px/Pz
+    return (Px/Pz)*1000
 
 
 def get_yangle(data):
     """
-        This function returns a 1D array consisting of yp = Py/Pz
+        This function returns a 1D array consisting of yp = Py/Pz in milliradian
     """
     Py = data[:,feature_dict["Py"]]
     Pz = data[:,feature_dict["Pz"]]
 
-    return Py/Pz
+    return (Py/Pz)*1000
 
 def get_particle_count(data, particle_name):
     return np.count_nonzero(data[:,feature_dict["PDGid"]] == particle_dict[particle_name])

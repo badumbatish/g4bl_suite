@@ -166,7 +166,6 @@ def generate_args(cmd: str, param_dict: dict, file_name: str):
         lst.append(file_name)
         for i, value in enumerate(each_combination):
             lst.append(f"{keys[i]}={each_combination[i]}")
-        print(lst)
         args.append(lst)
 
     return args

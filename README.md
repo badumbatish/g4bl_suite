@@ -4,14 +4,18 @@ This library provides a soft interaction wall between G4Beamline and scientists.
 
 It doesn't use OOP, only functions. The function mostly manipulates 2D and 1D numpy arrays under the hood and also returns numpy arrays that can be manipulated directly by scientists.
 
-## Dependencies:
+# Dependencies:
     numpy
 
     mpl-scatter-density: https://github.com/astrofrog/mpl-scatter-density
 
     matplotlib
+    
+# Documentation
+See https://github.com/badumbatish/fermi_proj/wiki for wiki
 
-## Set up
+See https://github.com/badumbatish/fermi_proj/wiki/Automation for automation of tasks
+## Basic set up
 
 ### Set your virtual detector to output ascii text format
 

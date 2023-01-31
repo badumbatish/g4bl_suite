@@ -151,6 +151,7 @@ def run_command(args):
 
 def generate_args(cmd: str, param_dict: dict, file_name: str):
     """
+        Generates a list of arguments that is the first parameter for subprocess.run
     """
     keys, values = param_dict.keys(), param_dict.values()
     keys = list(keys)

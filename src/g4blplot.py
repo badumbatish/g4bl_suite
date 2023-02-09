@@ -149,32 +149,65 @@ def run_command(args):
     print(f"Running {args}")
     result = subprocess.run(args,stdout=subprocess.DEVNULL)
 
-def generate_args(cmd: str, param_dict: dict, file_name: str):
+def isG4BL(cmd: str):
+    return cmd.endswith("g4bl")
+def isG4BLMPI(cmd: str):
+    return cmd.endswith("g4blmpi")
+
+def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
     """
         Generates a list of arguments that is the first parameter for subprocess.run
     """
-    keys, values = param_dict.keys(), param_dict.values()
-    keys = list(keys)
-    values = list(values)
+    # Generating keys, here is good
+    keys = []
+    for element in param_dict.keys():
+        if not isinstance(element,tuple):
+            print(element)
+            keys.append(element)
+        else:
+            keys.extend(element)
+    
+    values = []
+    for element in param_dict.values():
+        if not isinstance(element,tuple):
+            values.append(element)
+        else:
+            values.append(list(v for v in element))
+    
+    combination = list(itertools.product(*param_dict.values()))
 
-    combination =  list(itertools.product(*values))
-
+    # combination =  list(itertools.product(*values))
+    def flatten(A):
+        rt = []
+        for i in A:
+            if isinstance(i,list): rt.extend(flatten(i))
+            else: rt.append(i)
+        return rt
     args = []
     for each_combination in combination:
         lst = []
         lst.append(cmd)
+        if(isG4BLMPI(cmd)):
+            lst.append(mpi_count) 
         lst.append(file_name)
+        each_combination = flatten(each_combination)
         for i, value in enumerate(each_combination):
-            lst.append(f"{keys[i]}={each_combination[i]}")
-        print(lst)
+            lst.append(f"{keys[i]}={value}")
+        ## print(lst)
         args.append(lst)
 
     return args
 
-def automate(cmd: str, param_dict: dict, file_name : str,process_count = 1, chunksize = 1):
+def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1, mpi_count = None):
     """
     """
-    args  = generate_args(cmd,param_dict, file_name)
+    args  = generate_args(cmd,param_dict, file_name,mpi_count)
+    process_count = 0
+    if(mpi_count is None):
+        process_count = total_process_count
+    else:
+        process_count = total_process_count / mpi_count
 
+    print(f"Creating pool with total process_count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:
-        p.map(run_command,args,chunksize=chunksize)
+        p.map(run_command,args)

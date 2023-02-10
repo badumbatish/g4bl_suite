@@ -130,6 +130,14 @@ def get_xangle(data):
 
     return (Px/Pz)*1000
 
+def tuple_zipl(args):
+    """Return a tuple of list from the argument being a list of tuples"""
+    tp = []
+    for v in args:
+        v = list(v)
+        tp.append(v)
+    a = tuple(tp)
+    return a
 
 def get_yangle(data):
     """

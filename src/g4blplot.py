@@ -211,4 +211,4 @@ def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1
     print(f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:
         # color is pastel pink hehe
-        list(tqdm.tqdm(p.imap_unordered(run_command, args), total=len(args),colour="#F8C8DC"))
+        list(tqdm.tqdm(p.imap_unordered(run_command, args), total=len(args),colour="#F8C8DC", desc="Batch progress bar"))

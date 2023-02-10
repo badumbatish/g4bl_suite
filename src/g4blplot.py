@@ -4,6 +4,7 @@ import mpl_scatter_density
 import multiprocessing as mp
 import itertools
 import subprocess
+import tqdm
 from os.path import exists
 
 
@@ -146,8 +147,8 @@ def run_command(args):
     """
         Helper function for automate()
     """
-    print(f"Running {args}")
-    result = subprocess.run(args)
+    #print(f"Running {args}")
+    result = subprocess.run(args,stdout=subprocess.DEVNULL)
 
 def isG4BL(cmd: str):
     return cmd.endswith("g4bl")
@@ -209,4 +210,5 @@ def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1
 
     print(f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:
-        p.map(run_command,args)
+        # color is pastel pink hehe
+        list(tqdm.tqdm(p.imap_unordered(run_command, args), total=len(args)),colour="#F8C8DC")

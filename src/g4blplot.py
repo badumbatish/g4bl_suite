@@ -147,7 +147,7 @@ def run_command(args):
         Helper function for automate()
     """
     print(f"Running {args}")
-    result = subprocess.run(args,stdout=subprocess.DEVNULL)
+    result = subprocess.run(args)
 
 def isG4BL(cmd: str):
     return cmd.endswith("g4bl")
@@ -162,7 +162,6 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
     keys = []
     for element in param_dict.keys():
         if not isinstance(element,tuple):
-            print(element)
             keys.append(element)
         else:
             keys.extend(element)
@@ -208,6 +207,6 @@ def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1
     else:
         process_count = total_process_count / mpi_count
 
-    print(f"Creating pool with total process_count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
+    print(f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:
         p.map(run_command,args)

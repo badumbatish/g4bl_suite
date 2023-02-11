@@ -209,13 +209,13 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
 def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1, mpi_count = None):
     """
     """
-    args  = generate_args(cmd,param_dict, file_name,mpi_count)
+    args  = generate_args(cmd,param_dict, file_name,str(mpi_count))
     process_count = 0
     if(mpi_count is None):
-        process_count = total_process_count
+        process_count = int(total_process_count)
     else:
-        process_count = total_process_count / mpi_count
-
+        process_count = int(total_process_count / int(mpi_count))
+        
     print(f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:
         # color is pastel pink hehe

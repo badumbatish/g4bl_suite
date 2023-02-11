@@ -1,0 +1,146 @@
+#  lengths are in mm, fields is Tesla !  Momentum in MeV
+ 
+#______________________________________________________________________
+
+
+#------------------------------- Setup -------------------------------#
+ 
+ 
+# Must add kill=$kill_aperture to every element to use this feature.
+
+param kill_aperture=1
+ 
+ 
+
+ 
+#physics QGSP_BERT disable=Decay
+physics QGSP_BERT
+
+
+#---------------------------- Define World and Beam -------------------------#
+
+# Set default environment material
+param worldMaterial=Vacuum
+
+
+#BEAM
+param -unset _meanMomentum=100
+param -unset _sigmaXY=-5
+param -unset nEv=100000000
+param -unset _sigmaXYp=0.005
+beam gaussian meanMomentum=$_meanMomentum sigmaP=20 nEvents=$nEv particle=pi- sigmaX=$_sigmaXY sigmaY=$_sigmaXY meanXp=0 meanYp=0 sigmaXp=-$_sigmaXYp sigmaYp=-$_sigmaXYp beamZ=16
+
+
+# Only pay attention to the following particles (saves on calculation time) 
+particlecolor pi-=1,0,0 mu-=0,1,0
+trackcuts keep=mu-,pi-
+
+ 
+
+#--------------------------- Bckground Color --------------------------#
+
+ 
+# Scaling GUI view from pg 19 of the manual
+ 
+g4ui when=4 "/vis/viewer/scaleTo 10 10 1"
+
+
+#--------------------------- Define Beamline Elements --------------------------#
+
+
+# Parameters
+param -unset Magnet=ON
+param Tw=15 Th=30 Tl=30
+param Tm=W
+
+param QUADfieldlength13=1076.3
+param -unset QUADgradient13=0
+param QUADironLength13=1076.3
+
+param QUADfieldlength2=1452.6
+param -unset QUADgradient2=0
+param QUADironLength2=1452.525
+
+param QUADapertureRadius=49.15
+param QUADironRadius=50.8
+param SOLinnerRadius=20.0
+param SOLouterRadius=22.0
+param SOLlength=130.0
+param SOLmaxZ=64.0
+param -unset SOLcurrent=0
+
+
+box Target width=$Tw height=$Th length=$Tl material=W color=1.0,0.75,0.0 kill=$kill_aperture \ 
+
+
+genericquad Quad2 fieldLength=$QUADfieldlength2 apertureRadius=$QUADapertureRadius ironLength=$QUADironLength2 \
+ironRadius=$QUADironRadius ironColor=0,0,1,.3 \
+gradient=$QUADgradient2 fringeFactor=10.0 kill=$kill_aperture
+
+
+genericquad Quad13 fieldLength=$QUADfieldlength13 apertureRadius=$QUADapertureRadius ironLength=$QUADironLength13 \
+ironRadius=$QUADironRadius ironColor=0,0,1,.3 \
+gradient=$QUADgradient13 fringeFactor=10.0 kill=$kill_aperture
+
+// coil does not permit kill parameter
+coil LLS innerRadius=$SOLinnerRadius outerRadius=$SOLouterRadius length=$SOLlength
+
+solenoid LomaLindaSolenoid coilName=LLS current=$SOLcurrent  color=1,0,0,.3 kill=$kill_aperture
+
+
+tubs TargetToSolenoid material=STAINLESS-STEEL outerRadius=70.0 innerRadius=60.0 length=355.6  color=.2,.2,.2,.3 kill=$kill_aperture
+
+tubs SolenoidToQUAD1 material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=231.45  color=.2,.2,.2,.3 kill=$kill_aperture
+
+tubs QUADGap material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=304.8  color=.2,.2,.2,.3 kill=$kill_aperture
+
+tubs QUAD3ToStraw material=STAINLESS-STEEL outerRadius=50.8 innerRadius=49.15 length=388.9  color=.2,.2,.2,.3 kill=$kill_aperture
+
+tubs Straw material=STAINLESS-STEEL outerRadius=17.525 innerRadius=15.875 length=585.2  color=.2,.2,.2,.3 kill=$kill_aperture
+
+
+
+
+
+
+
+#---------------------- Define Virtual Detectors for scoring -----------------------#
+
+virtualdetector Det radius=15.875 length=1 color=1,1,1 material=Vacuum format=ascii require=PDGid==13
+
+
+
+#---------------------- Place Beamline Elements -----------------------#
+
+place Target rename=target z=0.0
+place TargetToSolenoid rename=T2S z=192.8
+place LomaLindaSolenoid z=435.6
+place SolenoidToQUAD1 rename=S2Q z=616.325
+place Quad13 rename=Q1 z=1270.2
+place QUADGap rename=QGap12 z=1960.75
+place Quad2 rename=Q2 z=2839.4125
+place QUADGap rename=QGap23 z=3718.075
+place Quad13 rename=Q3 z=4408.625
+place QUAD3ToStraw rename=Q2Str z=5141.225
+place Straw z=5628.275
+
+#---------------------- Place Virtual Detectors -----------------------#
+#place Det rename=5_detector_1 z=20
+#place Det rename=detector2 z=732.55
+#place Det rename=detector3 z=1961.25
+#place Det rename=detector4 z=3565
+#place Det rename=detector5 z=3718.575
+#place Det rename=detector6 z=4947.275
+#place Det rename=detector7 z=5921.375
+
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_8 z=5921
+#zntuple z=17
+#zntuple z=732.05
+#zntuple z=1960.75
+#zntuple z=2839.4125
+#zntuple z=3718.575
+#zntuple z=4946.775
+#zntuple z=5920.85
+
+
+#profile zloop=0:6000:50 particle=mu- require=True file=BeamEllipseTransport.txt

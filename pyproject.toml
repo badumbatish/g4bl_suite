@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jjsm_fermi"
+version = "0.0.1"
+authors = [
+  { name="Jasmine Tang", email="tanghocle456@gmail.com" },
+]
+description = "A small G4beamline scripting package"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Unix"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/badumbatish/fermi_proj"
+"Bug Tracker" = "https://github.com/badumbatish/fermi_proj/issues"

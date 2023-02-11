@@ -25,7 +25,7 @@ param worldMaterial=Vacuum
 
 #BEAM
 param -unset _meanMomentum=100
-param -unset _sigmaXY=0.005
+param -unset _sigmaXY=-5
 param -unset nEv=100000000
 param -unset _sigmaXYp=0.005
 beam gaussian meanMomentum=$_meanMomentum sigmaP=20 nEvents=$nEv particle=pi- sigmaX=$_sigmaXY sigmaY=$_sigmaXY meanXp=0 meanYp=0 sigmaXp=-$_sigmaXYp sigmaYp=-$_sigmaXYp beamZ=16
@@ -132,7 +132,7 @@ place QUAD3ToStraw rename=Q2Str z=5141.225
 #place Det rename=detector6 z=4947.275
 #place Det rename=detector7 z=5921.375
 
-place Det rename=MeV$_meanMomentum|nEv$nEv|MagnetON|angle$_sigmaXYp|detector_8 z=5921
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_8 z=5921
 #zntuple z=17
 #zntuple z=732.05
 #zntuple z=1960.75

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     fig, axes = plt.subplots(1, layout='constrained')
 
-    fig.suptitle("SigmaXp, sigmaYp vs normalized mu- count at end of beamline")
+    fig.suptitle("SigmaXp, sigmaYp vs normalized mu- count at end of beamline (50mm rad detector)")
     fig.supxlabel("uniform sigmaXp = sigmaYp")
     fig.supylabel("Normalized count of mu-")
     

@@ -196,7 +196,7 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
         lst = []
         lst.append(cmd)
         if(isG4BLMPI(cmd)):
-            lst.append(mpi_count) 
+            lst.append(str(mpi_count)) 
         lst.append(file_name)
         each_combination = flatten(each_combination)
         for i, value in enumerate(each_combination):
@@ -214,7 +214,7 @@ def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1
     if(mpi_count is None):
         process_count = total_process_count
     else:
-        process_count = total_process_count / mpi_count
+        process_count = int(total_process_count / mpi_count)
 
     print(f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:

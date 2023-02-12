@@ -106,7 +106,7 @@ tubs Straw material=STAINLESS-STEEL outerRadius=17.525 innerRadius=15.875 length
 
 #---------------------- Define Virtual Detectors for scoring -----------------------#
 
-virtualdetector Det radius=15.875 length=1 color=1,1,1 material=Vacuum format=ascii require=PDGid==13
+virtualdetector Det radius=50 length=1 color=1,1,1 material=Vacuum format=ascii require=PDGid==13
 
 
 

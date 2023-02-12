@@ -4,6 +4,7 @@ import mpl_scatter_density
 import multiprocessing as mp
 import itertools
 import subprocess
+import tqdm
 from os.path import exists
 
 
@@ -129,6 +130,14 @@ def get_xangle(data):
 
     return (Px/Pz)*1000
 
+def tuple_zipl(args):
+    """Return a tuple of list from the argument being a list of tuples"""
+    tp = []
+    for v in args:
+        v = list(v)
+        tp.append(v)
+    a = tuple(tp)
+    return a
 
 def get_yangle(data):
     """
@@ -146,7 +155,7 @@ def run_command(args):
     """
         Helper function for automate()
     """
-    print(f"Running {args}")
+    #print(f"Running {args}")
     result = subprocess.run(args,stdout=subprocess.DEVNULL)
 
 def isG4BL(cmd: str):
@@ -162,7 +171,6 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
     keys = []
     for element in param_dict.keys():
         if not isinstance(element,tuple):
-            print(element)
             keys.append(element)
         else:
             keys.extend(element)
@@ -188,7 +196,7 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
         lst = []
         lst.append(cmd)
         if(isG4BLMPI(cmd)):
-            lst.append(mpi_count) 
+            lst.append(str(mpi_count)) 
         lst.append(file_name)
         each_combination = flatten(each_combination)
         for i, value in enumerate(each_combination):
@@ -206,8 +214,9 @@ def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1
     if(mpi_count is None):
         process_count = total_process_count
     else:
-        process_count = total_process_count / mpi_count
+        process_count = int(total_process_count / mpi_count)
 
-    print(f"Creating pool with total process_count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
+    print(f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}")
     with mp.Pool(process_count) as p:
-        p.map(run_command,args)
+        # color is pastel pink hehe
+        list(tqdm.tqdm(p.imap_unordered(run_command, args), total=len(args),colour="#F8C8DC", desc="Batch progress bar"))

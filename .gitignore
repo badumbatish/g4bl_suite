@@ -168,3 +168,5 @@ pyvenv.cfg
 **/log
 
 bin
+
+docker/worker/golang

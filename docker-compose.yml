@@ -5,9 +5,8 @@ services:
     build:
       context: ./docker/worker/
       #dockerfile: Dockerfile
-    # ports:
-    #   - "80:80"
-    #   - "443:443"
+    ports:
+      - "80:80"
     volumes:
       - ./g4bls_volume:/app/golang
     # restart: always
@@ -16,9 +15,8 @@ services:
     build:
       context: ./docker/manager/
       #dockerfile: Dockerfile
-    # ports:
-    #   - "80:80"
-    #   - "443:443"
+    ports:
+      - "4311:4311"
     volumes:
       - ./src/python:/usr/src/app
     # restart: always

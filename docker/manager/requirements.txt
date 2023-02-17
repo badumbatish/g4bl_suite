@@ -2,3 +2,4 @@ numpy
 mpl_scatter_density
 matplotlib
 tqdm
+requests

@@ -26,6 +26,6 @@ func (h *WorkerAPIHandler) startWorker(w http.ResponseWriter, r *http.Request, p
 			r.Body.Close()
 		}()
 
-		return nil
+		return errorutil.WriteJSON(w, "hey this the message that the other container will recieve when hitting this endpoint", http.StatusOK)
 	}())
 }

@@ -100,7 +100,7 @@ def save_figure(fig, file_name, dpi=300):
     fig.set_size_inches((8.5, 11), forward=False)
     fig.savefig(file_name, dpi=dpi)
 
-def extract_particle_data(numpy_array, particle_name):
+def extract_particle_data(data, particle_name=None, particle_id=None):
     """Extracts a numpy array of only a certain particle out of a raw data
 
     Parameters
@@ -109,12 +109,18 @@ def extract_particle_data(numpy_array, particle_name):
     Returns
     ----------
     """
+    mask = None
     # make a 1D array mask that returns true if the PID is satisfy
     # [:,7] represents the column of PIDs
-    mask = (numpy_array[:,feature_dict["PDGid"]] == particle_dict[particle_name])
+    if(particle_id is not None):
+        mask = data[:,feature_dict["PDGid"]] == particle_id
+    elif(particle_name is not None):
+        mask = (data[:,feature_dict["PDGid"]] == particle_dict[particle_name])
+    else:
+        raise Exception(f"Particle id or particle name is not present")
 
     # pass the mask to the raw data to select the PID-satisfying rows, then : to select all the columns of that row
-    particle_data = numpy_array[mask,:]
+    particle_data = data[mask,:]
 
     return particle_data
 
@@ -148,9 +154,14 @@ def get_yangle(data):
 
     return (Py/Pz)*1000
 
-def get_particle_count(data, particle_name):
-    return np.count_nonzero(data[:,feature_dict["PDGid"]] == particle_dict[particle_name])
-
+def get_particle_count(data, particle_name=None, particle_id=None):
+    if(particle_id is not None):
+        res = np.count_nonzero(data[:,feature_dict["PDGid"]] == particle_id)
+    elif(particle_name is not None):
+        res = np.count_nonzero(data[:,feature_dict["PDGid"]] == particle_dict[particle_name])
+    else:
+        raise Exception(f"Particle id or particle name is not present")
+    return res
 def run_command(args):
     """
         Helper function for automate()

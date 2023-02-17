@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  worker:
+    build:
+      context: ./docker/worker/
+      #dockerfile: Dockerfile
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
+    volumes:
+      - ./g4bls_volume:/var/lib/
+    # restart: always
+
+  manager:
+    build:
+      context: ./docker/manager/
+      #dockerfile: Dockerfile
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
+    volumes:
+      - ./src:/usr/src/app
+    # restart: always

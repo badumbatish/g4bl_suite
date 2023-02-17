@@ -106,8 +106,7 @@ tubs Straw material=STAINLESS-STEEL outerRadius=17.525 innerRadius=15.875 length
 
 #---------------------- Define Virtual Detectors for scoring -----------------------#
 
-virtualdetector Det radius=50 length=1 color=1,1,1 material=Vacuum format=ascii require=PDGid==13
-
+virtualdetector Det radius=50 length=1 color=1,1,1 material=Vacuum format=ascii
 
 
 #---------------------- Place Beamline Elements -----------------------#
@@ -124,14 +123,13 @@ place Quad13 rename=Q3 z=4408.625
 place QUAD3ToStraw rename=Q2Str z=5141.225
 
 #---------------------- Place Virtual Detectors -----------------------#
-#place Det rename=5_detector_1 z=20
-#place Det rename=detector2 z=732.55
-#place Det rename=detector3 z=1961.25
-#place Det rename=detector4 z=3565
-#place Det rename=detector5 z=3718.575
-#place Det rename=detector6 z=4947.275
-#place Det rename=detector7 z=5921.375
-
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_1 z=20
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_2 z=732.55
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_3 z=1961.25
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_4 z=3565
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_5 z=3718.575
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_6 z=4947.275
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_7 z=5335.675
 place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_8 z=5921
 #zntuple z=17
 #zntuple z=732.05

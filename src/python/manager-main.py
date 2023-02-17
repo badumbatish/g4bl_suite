@@ -1,4 +1,5 @@
 import requests
+import rabbit
 
 def get_data():
   url = 'http://g4bls_worker_1:80/api/start-worker'
@@ -7,3 +8,4 @@ def get_data():
 
 if __name__ == '__main__':
   print(get_data())
+  print(rabbit.var)

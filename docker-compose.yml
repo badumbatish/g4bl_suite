@@ -20,3 +20,13 @@ services:
     volumes:
       - ./src/python:/usr/src/app
     # restart: always
+  rabbitmq:
+    build:
+      context: ./docker/rabbitmq/
+      dockerfile: rabbitmq-local.dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    # restart: always

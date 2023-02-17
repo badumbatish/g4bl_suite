@@ -9,7 +9,7 @@ services:
     #   - "80:80"
     #   - "443:443"
     volumes:
-      - ./g4bls_volume:/var/lib/
+      - ./g4bls_volume:/app/golang
     # restart: always
 
   manager:
@@ -20,5 +20,5 @@ services:
     #   - "80:80"
     #   - "443:443"
     volumes:
-      - ./src:/usr/src/app
+      - ./src/python:/usr/src/app
     # restart: always

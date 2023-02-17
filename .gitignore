@@ -162,3 +162,9 @@ cython_debug/
 .DS_Store
 pyvenv.cfg 
 *.dat
+
+.buildenv-cache
+
+**/log
+
+bin

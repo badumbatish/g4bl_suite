@@ -4,7 +4,7 @@ The system will be run on containers
 I have three components:
 - g4blplot user : A python script in charge of generating a list of batch jobs via a function
 - RabbitMQ (Pika in Python): In charge of distributing the lists of tasks to other computers from different networks (how does it do it, i don't know yet).
-- G4BL containers: contains ubuntu 22.04 images and runs computation
+- G4BL containers: contains ubuntu 22.04 images and runs computation ([jjasmine/g4fermi:worker on Docker Hub)](https://hub.docker.com/repository/docker/jjasmine/g4fermi/general)
 ```mermaid
 flowchart LR
     pythonscript(g4blplot user)

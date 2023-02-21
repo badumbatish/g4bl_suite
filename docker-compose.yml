@@ -7,26 +7,26 @@ services:
       #dockerfile: Dockerfile
     ports:
       - "80:80"
-    volumes:
-      - ./g4bls_volume:/app/golang
+    #volumes:
+      #- /home/jjsm/Documents/fermi_proj/g4bls_volume/Geant4Data:/root/Geant4Data
     # restart: always
 
-  manager:
-    build:
-      context: ./docker/manager/
-      #dockerfile: Dockerfile
-    ports:
-      - "4311:4311"
-    volumes:
-      - ./src/python:/usr/src/app
-    # restart: always
-  rabbitmq:
-    build:
-      context: ./docker/rabbitmq/
-      dockerfile: rabbitmq-local.dockerfile
-    ports:
-      - "8080:8080"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    # restart: always
+  # manager:
+  #   build:
+  #     context: ./docker/manager/
+  #     #dockerfile: Dockerfile
+  #   ports:
+  #     - "4311:4311"
+  #   volumes:
+  #     - ./src/python:/usr/src/app
+  #   # restart: always
+  # rabbitmq:
+  #   build:
+  #     context: ./docker/rabbitmq/
+  #     dockerfile: rabbitmq-local.dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: guest
+  #     RABBITMQ_DEFAULT_PASS: guest
+  #   # restart: always

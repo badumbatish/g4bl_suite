@@ -170,3 +170,5 @@ pyvenv.cfg
 bin
 
 docker/worker/golang
+/g4bls_volume/*
+.vscode/

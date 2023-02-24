@@ -39,6 +39,7 @@ Workflow example:
 
 Problems:
 - How do I implement a lightweight socket listener?
+- When I do implement a socket listener, what security issues should I worry about to ensure that I don't get attacked on my computers because of the listeners?
 - What kind of result does worker has to return that allows me to build a framework for users to use this library?
 - Data integrity: If data is stored in each computer/node, how do I make sure the data is safe from disk failure / computer failure.
 

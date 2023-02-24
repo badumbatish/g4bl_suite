@@ -15,18 +15,30 @@ flowchart LR
     A2(a G4BL docker container of size 6gb)
     A3(a G4BL docker container of size 6gb)
     A(...........................................................)
-    rabbitmq -->|1. gives tasks| A1 & A2 & A & A3 -->|2. computes and returns tasks | rabbitmq
+    
+    L1(a lightweight socket listener process)
+    L2(a lightweight socket listener process)
+    L3(a lightweight socket listener process)
+    L4(a lightweight socket listener process)
+    
+    L1 -->|Wake up worker with suitable container for the task| A1 -->|computes tasks| L1 
+    L2 -->|Wake up worker with suitable container for the task| A2 -->|computes tasks| L2 
+    L3 -->|Wake up worker with suitable container for the task| A -->|computes tasks| L3 
+    L4 -->|Wake up worker with suitable container for the task| A3 -->|computes tasks| L4 
+    rabbitmq -->|1. gives tasks| L1 & L2 & L3 & L4 -->|reports tasks progress| rabbitmq
 ```
 Workflow example: 
 - The python scripts calls rabbitmq with a list of batch jobs.
-- RabbitMQ distributes tasks of computing 2e9 simulation events to workers.
-- Workers return results of 1 or 0 to rabbitmq signalling completion of computation, which returns results to the user.
+- RabbitMQ distributes tasks of computing 2e9 simulation events to a lightweight listeners/managers.
+- Manager starts up workers
+- Workers return results of 1 or 0 to manager, manager signalling completion of computation, which returns results to the user.
 - User can distribute other round of batch jobs to RabbitMQ, this time for data analysis jobs using python.
 - RabbitMQ distributes tasks of analyzing data to workers.
-- Worker returns a number/ numpy array to RabbitMQ, which returns to the user
+- Worker returns a result that manager will report back to RabbitMQ, which returns to the user.
 - If user is satisfied, tell RabbitMQ to send a special task of ID="End session",  which erases all results from that session.
 
 Problems:
-- How do I start a container of workers only when RabbitMQ have a list of tasks to do
-- ....
+- How do I implement a lightweight socket listener?
+- What kind of result does worker has to return that allows me to build a framework for users to use this library?
+- Data integrity: If data is stored in each computer/node, how do I make sure the data is safe from disk failure / computer failure.
 

@@ -1,10 +1,16 @@
-import pika, sys, os
+import pika
+import sys
+import os
 import time
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-    channel = connection.channel()
+    
+    url = os.environ.get('CLOUDAMQP_URL','amqp://guest:guest@localhost/%2f')
+    params = pika.URLParameters(url)
+    params.socket_timeout = 5
 
-    channel.queue_declare(queue='task_queue', durable=True)
+    connection = pika.BlockingConnection(params) # Connect to CloudAMQP
+    channel = connection.channel() # start a channel
+    channel.queue_declare(queue='pdfprocess') # Declare a queue
     
     def callback(ch, method, properties, body):
         
@@ -16,7 +22,7 @@ def main():
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
     channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(queue='task_queue',
+    channel.basic_consume(queue='pdfprocess',
                         on_message_callback=callback)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')

@@ -1,20 +1,15 @@
 import pika
 import sys
+import os
+url = os.environ.get('CLOUDAMQP_URL','amqp://guest:guest@localhost/%2f')
+params = pika.URLParameters(url)
+params.socket_timeout = 5
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-channel = connection.channel()
+connection = pika.BlockingConnection(params) # Connect to CloudAMQP
+channel = connection.channel() # start a channel
+channel.queue_declare(queue='pdfprocess') # Declare a queue
+# send a message
 
-message = ' '.join(sys.argv[1:]) or "Hello World!"
-channel.queue_declare(queue='task_queue', durable=True)
-
-
-channel.basic_publish(exchange='', 
-                      routing_key='task_queue',
-                      body=message,
-                      properties=pika.BasicProperties(
-                            delivery_mode= pika.spec.PERSISTENT_DELIVERY_MODE
-                      )
-                    )
-
-print(f" [x] Sent {message}")
+channel.basic_publish(exchange='', routing_key='pdfprocess', body='User information')
+print ("[x] Message sent to consumer")
 connection.close()

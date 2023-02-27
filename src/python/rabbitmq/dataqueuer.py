@@ -1,4 +1,4 @@
-import rabbitclasses
+from .rabbitclasses import RabbitMQPublisher
 import uuid
 import json
 import gzip
@@ -10,8 +10,12 @@ def gen_id():
 def queue_item_from_json(json_str, gzip_compressed=True):
     if gzip_compressed:
         json_str = gzip.decompress(json_str).decode("utf-8")
-    obj = json.loads(json_str)
-    return QueueItem(obj["data_chunk"])
+    try:
+        obj = json.loads(json_str)
+        return QueueItem(obj["data_chunk"])
+    except json.JSONDecodeError:
+        print("Error decoding json1")
+        return None
 
 class QueueItemChunk:
     def __init__(self, data_chunk, chunk_index, chunk_size, total_chunks, gzip_compressed=True):
@@ -31,7 +35,7 @@ class QueueItemChunk:
             "total_chunks": self.total_chunks
         }
 
-        return str(obj)
+        return json.dumps(obj)
 
     def compressed(self):
         if not self.gzip_compressed:
@@ -63,11 +67,11 @@ class QueueItem:
     def __str__(self):
         obj = {
             "id": self.id,
-            "data_chunk": self.data,
+            "data_chunk": str(self.data),
             "is_chunked": False
         }
 
-        return str(obj)
+        return json.dumps(obj)
 
     def compressed(self):
         if not self.gzip_compressed:
@@ -76,7 +80,7 @@ class QueueItem:
 
 class DataQueuer:
     def __init__(self, rabbitmq_publisher):
-        if not isinstance(rabbitmq_publisher, rabbitclasses.RabbitMQPublisher):
+        if not isinstance(rabbitmq_publisher, RabbitMQPublisher):
             raise TypeError("rabbitmq_publisher must be of type RabbitMQPublisher")
         self.rabbitmq_publisher = rabbitmq_publisher
     

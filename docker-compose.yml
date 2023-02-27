@@ -15,18 +15,18 @@ services:
     # restart: always
   worker:
     build:
-      context: ./docker/worker/
+      context: ./docker/workertest/
       dockerfile: worker-local.dockerfile
-    ports:
-      - "5671:5672"
     volumes:
       - ./src/python:/usr/src/app
+    environment:
+      - PYTHONUNBUFFERED=1
 
   manager:
     build:
       context: ./docker/manager/
       dockerfile: manager-local.dockerfile
-    ports:
-      - "5671:5672"
     volumes:
       - ./src/python:/usr/src/app
+    environment:
+      - PYTHONUNBUFFERED=1

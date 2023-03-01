@@ -178,7 +178,9 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
     """
         Generates a list of arguments that is the first parameter for subprocess.run
     """
-    # Generating keys, here is good
+    for key, value in param_dict.items():
+        key = tuple(value)
+
     keys = []
     for element in param_dict.keys():
         if not isinstance(element,tuple):

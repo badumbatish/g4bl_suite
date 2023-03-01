@@ -64,7 +64,7 @@ def test_mixed_list_with_intfloat_list():
 def test_list_with_tuples_of_lists():
     param_dict = {
         "_meanMomentum": [100],
-        ("a","b","c"): ([4,5,6],[5,6,7])
+        ("a","b","c"): tuple([4,5,6],[5,6,7])
     }
     generated_args = generate_args(cmd=g4bl_cmd,param_dict=param_dict,file_name=file_name)
     test_args = [
@@ -90,7 +90,7 @@ def test_tuple_zipl():
 def test_singular_tuple():
     param_dict = {
         "sigma": [10],
-        ("Magnet","QUADgradient13", "QUADgradient2", "SOLcurrent") : (["Quadx1.5SolOFF", 0     ,0    ,0],)
+        ("Magnet","QUADgradient13", "QUADgradient2", "SOLcurrent") : tuple(["Quadx1.5SolOFF", 0     ,0    ,0])
     }
     generated_args = generate_args(cmd=g4bl_cmd,param_dict=param_dict,file_name=file_name)
     test_args = [

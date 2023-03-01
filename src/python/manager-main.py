@@ -17,9 +17,9 @@ def main():
     rabbitmq_username = config["rabbitmq_user"]
     rabbitmq_password = config["rabbitmq_pass"]
 
-    rabbitmq_consumer_provider = rabbitclasses.RabbitMQPublisherProvider(rabbitmq_host, rabbitmq_port, rabbitmq_username, rabbitmq_password)
+    rabbitmq_provider = rabbitclasses.RabbitMQProvider(rabbitmq_host, rabbitmq_port, rabbitmq_username, rabbitmq_password)
 
-    rabbitmq_publisher = rabbitmq_consumer_provider.new_publisher("test", "test_queue")
+    rabbitmq_publisher = rabbitmq_provider.new_publisher("test", "test_queue")
     rabbitmq_publisher.connect()
 
     data_queuer = dataqueuer.DataQueuer(rabbitmq_publisher)

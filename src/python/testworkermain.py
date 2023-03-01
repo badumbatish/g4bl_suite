@@ -17,9 +17,9 @@ def main():
     rabbitmq_username = config["rabbitmq_user"]
     rabbitmq_password = config["rabbitmq_pass"]
 
-    rabbitmq_consumer_provider = rabbitclasses.RabbitMQConsumerProvider(rabbitmq_host, rabbitmq_port, rabbitmq_username, rabbitmq_password)
+    rabbitmq_provider = rabbitclasses.RabbitMQProvider(rabbitmq_host, rabbitmq_port, rabbitmq_username, rabbitmq_password)
 
-    rabbitmq_consumer = rabbitmq_consumer_provider.new_consumer("test", "test_queue")
+    rabbitmq_consumer = rabbitmq_provider.new_consumer("test", "test_queue")
     rabbitmq_consumer.connect()
 
     def callback(ch, method, properties, body):

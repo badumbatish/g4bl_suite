@@ -1,7 +1,7 @@
 import pika
 
 # Provides the initial params (host, port, user, password) to create a new RabbitMQPublisher without having to pass them every time
-class RabbitMQPublisherProvider:
+class RabbitMQProvider:
     # host - RabbitMQ server IP
     # port - RabbitMQ server port
     # user - RabbitMQ server username
@@ -16,6 +16,9 @@ class RabbitMQPublisherProvider:
     # queue_name - RabbitMQ queue name
     def new_publisher(self, exchange, queue_name):
         return RabbitMQPublisher(self.host, self.port, self.user, self.password, exchange, queue_name)
+    
+    def new_consumer(self, exchange, queue_name):
+        return RabbitMQConsumer(self.host, self.port, self.user, self.password, exchange, queue_name)
 
 # handles sending messages to the RabbitMQ server, exchange, and queue define defined by the params
 class RabbitMQPublisher:
@@ -45,17 +48,6 @@ class RabbitMQPublisher:
     def close(self):
         self.connection.close()
 
-# Provides the initial params (host, port, user, password) to create a new RabbitMQConsumer without having to pass them every time
-class RabbitMQConsumerProvider:
-    def __init__(self, host, port, user, password):
-        self.host = host
-        self.port = port
-        self.user = user
-        self.password = password
-
-    def new_consumer(self, exchange, queue_name):
-        return RabbitMQConsumer(self.host, self.port, self.user, self.password, exchange, queue_name)
-    
 class RabbitMQConsumer:
     def __init__(self, host, port, user, password, exchange, queue_name):
         self.host = host

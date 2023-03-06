@@ -1,4 +1,4 @@
-import g4blplot as plot
+from g4blplot import g4blplot as plot
 import numpy as np
 import matplotlib.pyplot as plt
 

@@ -2,8 +2,12 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["g4blplot"]
+
 [project]
-name = "jjsm_fermi"
+name = "jjsm-fermi"
 version = "0.0.1"
 authors = [
   { name="Jasmine Tang", email="tanghocle456@gmail.com" },

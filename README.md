@@ -3,13 +3,20 @@ Python scripting library for plotting (and analyzing) G4Beamline program ascii o
 This library provides a soft interaction wall between G4Beamline and scientists. 
 
 It doesn't use OOP, only functions. The function mostly manipulates 2D and 1D numpy arrays under the hood and also returns numpy arrays that can be manipulated directly by scientists.
+# Installation 
+```bash
+pip install -i https://test.pypi.org/simple/ jjsm-fermi==0.0.3
+```
 
 # Dependencies:
-    numpy
+    numpy==1.24.2
 
     mpl-scatter-density: https://github.com/astrofrog/mpl-scatter-density
 
-    matplotlib
+    matplotlib==3.6.3
+    
+    tqdm==4.64.1
+
     
 # Documentation
 See https://github.com/badumbatish/fermi_proj/wiki for wiki
@@ -36,8 +43,7 @@ See https://github.com/badumbatish/fermi_proj/wiki/Automation for automation of 
 
 ## Usage
 ```python
-import g4blplot as plot
-import numpy as np
+from g4blplot import g4blplot as plot
 import matplotlib.pyplot as plt
 
 

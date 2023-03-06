@@ -1,7 +1,5 @@
-import sys
-sys.path.append('/Users/jjsm/Documents/FERMI_LAB_INTERNSHIP/fermi_proj/src/python/g4blplot')
-from g4blplot import generate_args
-from g4blplot import tuple_zipl
+from g4blplot.g4blplot import generate_args
+from g4blplot.g4blplot import tuple_zipl
 
 g4bl_cmd = "g4bl"
 g4blmpi_cmd = "g4blmpi"

@@ -1,4 +1,0 @@
-rabbitmq-host: "pnocvfsz:1KSOvE7L2xVECofp7j5Ch_PJgdWkENxH@shark.rmq.cloudamqp.com/pnocvfsz"
-rabbitmq-port: "5672"
-# rabbitmq-user: "guest"
-# rabbitmq-pass: "guest1"

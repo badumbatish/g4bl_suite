@@ -131,7 +131,7 @@ fermi_venv/*
 # Spyder project settings
 .spyderproject
 .spyproject
-
+*_venv/
 # Rope project settings
 .ropeproject
 

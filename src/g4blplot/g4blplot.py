@@ -15,7 +15,7 @@ particle_dict = {"pi-": -211,
                 "mu-": 13,
                 "mu+": -13}
 
-def add_text_file(file_name):
+def add_text_file(file_name : str) :
     """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and raise exception if file does not exists
 
     Parameters
@@ -34,7 +34,7 @@ def add_text_file(file_name):
     else:
         raise Exception(f"The file {file_name} does not exist")
 
-def scatter_plot(axes, x_axis, y_axis, heat_map = False):
+def scatter_plot(axes, x_axis, y_axis, heat_map:bool = False) :
     """ Scatter plot an axes based on 2 1D numpy array
     Parameters
     ----------
@@ -43,7 +43,7 @@ def scatter_plot(axes, x_axis, y_axis, heat_map = False):
     x_axis : 
         1D array that denotes what to plot on the x axis
     y_axis : 
-        1D arra that denotes what to plot on the y axis
+        1D array that denotes what to plot on the y axis
 
     Returns
     ----------
@@ -56,7 +56,7 @@ def scatter_plot(axes, x_axis, y_axis, heat_map = False):
         density = axes.scatter_density(x_axis,y_axis)
         plt.colorbar(density, ax = axes, label='Number of points per pixel')
 
-def hist_plot(axes, data, xlabel=None):
+def hist_plot(axes, data, xlabel: str = ""):
     """
         This function plots histogram in the axes
 
@@ -71,7 +71,7 @@ def hist_plot(axes, data, xlabel=None):
     ----------
     """
     axes.hist(data)
-    if xlabel is not None:
+    if xlabel is not "":
         axes.set_xlabel(xlabel)
         axes.set_ylabel(f"Count of {xlabel}")
     stats_str = f"Count: {data.size}\nMean: {data.mean():.3f}\nStd: {data.std():.3f}\nMin: {data.min()}\n25%: {np.percentile(data,25)}\n50%: {np.percentile(data,50)}\n75%: {np.percentile(data,75)}\nMax: {data.max()}"

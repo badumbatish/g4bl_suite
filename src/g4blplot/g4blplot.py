@@ -219,6 +219,10 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
 
     return args
 
+# TODO: Return a function that takes in a configuration of unknown type, and the list of arguments, then output 
+        # a new list of that g4bl has never computed before, in order for g4bl to not waste computation, and the physicist to not die waiting
+def arguments_filter(configuration, arguments):
+    pass
 def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1, mpi_count = None):
     """
     """

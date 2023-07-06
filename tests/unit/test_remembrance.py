@@ -118,5 +118,13 @@ def test_construct_list_files():
     assert g4blplot.construct_list_files(filtered_arg_list=filtered_arg_list,
                                          postfix_string_list = postfix_string_list) == test_args
 
-def test_is_config_object():
+def test_get_index_of_needed_tasks():
+    """
+        Test the function to see if it is truly getting the index of the needed tasks, not the already computed tasks
+
+        if the task lists that automate() has 4 tasks, and task 0th and task 3rd can be skipped, it should return an object that contains only
+        index 1 and 2, or if
+            - the function is returning a list, then it should return all a list of 4 elements, where 1st and 2nd element is true, 0th and 4th is false
+            - the function is returning a set, then it should return a set of all needed integers only
+    """
     pass

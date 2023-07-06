@@ -1,3 +1,4 @@
+from operator import pos
 import matplotlib.pyplot as plt
 import numpy as np
 import mpl_scatter_density
@@ -221,8 +222,11 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
 
 # TODO: Return a function that takes in a configuration of unknown type, and the list of arguments, then output 
         # a new list of that g4bl has never computed before, in order for g4bl to not waste computation, and the physicist to not die waiting
-def arguments_filter(configuration, arguments):
-    pass
+
+
+
+
+
 def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1, mpi_count = None):
     """
     """
@@ -237,3 +241,63 @@ def automate(cmd: str, param_dict: dict, file_name : str,total_process_count = 1
     with mp.Pool(process_count) as p:
         # color is pastel pink hehe
         list(tqdm.tqdm(p.imap_unordered(run_command, args), total=len(args),colour="#F8C8DC", desc="Batch progress bar"))
+
+
+def filter_args(arg_lists: list):
+    """
+    Return a list of list containing string of only type "key=value"
+
+    """
+    result = []
+    for lst in arg_lists:
+        sub_list = []
+        for item in lst:
+            if "=" in item:
+                sub_list.append(item)
+        result.append(sub_list)
+    
+    return result
+
+def construct_list_files(filtered_arg_list: list, postfix_string_list = None):
+    """
+    Constructs a list (1) of lists (2) of lists (3), where
+        - lists (3) represents the files that a batch outputs
+        - lists (2) represents each command to the terminal
+    """
+    # Constructor list file
+
+    # if there is postfix_string_list, add to every filtered_arg_list
+    
+    # Append .txt in the end
+
+
+    # Pseudo-code: 
+    # for every list in filter_args list
+        # loop over ee
+    result = []
+    for lst in filtered_arg_list:
+        task_output_list = []
+        std_config = ""
+        for item in lst:
+            std_config = std_config + item.replace("=", "")
+            std_config += "|"
+        std_config = std_config[:len(std_config)-1]
+
+        if postfix_string_list is None:
+            task_output_list.append(std_config)
+        else:
+            for item in postfix_string_list:
+                task_output_list.append(std_config + f"|{item}")
+        result.append(task_output_list)
+    print(result)
+    def recursively_add_txt(lst: list):
+        res = []
+        for item in lst:
+            if type(item) == list:
+                res.append(recursively_add_txt(item))
+            else:
+                res.append(item + ".txt")
+        return res
+    result = recursively_add_txt(result)
+    return result
+

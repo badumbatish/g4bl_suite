@@ -30,9 +30,12 @@ def add_text_file(file_name : str) :
 
     if(exists(file_name)):
         data = np.loadtxt(file_name)
-        return data
     else:
         raise Exception(f"The file {file_name} does not exist")
+    
+    if len(data.shape) == 1:
+        data = data[np.newaxis,:]
+    return data
 
 def scatter_plot(axes, x_axis, y_axis, heat_map:bool = False) :
     """ Scatter plot an axes based on 2 1D numpy array

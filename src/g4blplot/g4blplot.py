@@ -271,9 +271,6 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list = None):
     # Append .txt in the end
 
 
-    # Pseudo-code: 
-    # for every list in filter_args list
-        # loop over ee
     result = []
     for lst in filtered_arg_list:
         task_output_list = []

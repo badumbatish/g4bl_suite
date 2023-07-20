@@ -162,7 +162,8 @@ def test_get_index_of_needed_tasks():
        [ '_meanMomentum=300','angle=2'],
        [ '_meanMomentum=300','angle=3'],
     ]
-
+    
+    # Same as def test_all_file_exists():
     data_list_of_list =  g4blplot.construct_list_files(filtered_arg_list=filtered_arg_list,
                                          postfix_string_list = postfix_string_list)
 
@@ -178,3 +179,6 @@ def test_get_index_of_needed_tasks():
     
     assert True
     assert g4blplot.get_index_of_needed_tasks(data_list = data_list_of_list, data_directory = None, test = True) == result_list
+
+def test_skip_task():
+    assert True

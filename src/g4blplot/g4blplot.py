@@ -71,7 +71,7 @@ def hist_plot(axes, data, xlabel: str = ""):
     ----------
     """
     axes.hist(data)
-    if xlabel is not "":
+    if xlabel == "":
         axes.set_xlabel(xlabel)
         axes.set_ylabel(f"Count of {xlabel}")
     stats_str = f"Count: {data.size}\nMean: {data.mean():.3f}\nStd: {data.std():.3f}\nMin: {data.min()}\n25%: {np.percentile(data,25)}\n50%: {np.percentile(data,50)}\n75%: {np.percentile(data,75)}\nMax: {data.max()}"

@@ -1,3 +1,5 @@
+import os
+import glob
 from operator import pos
 import matplotlib.pyplot as plt
 import numpy as np
@@ -263,6 +265,8 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list = None):
     Constructs a list (1) of lists (2) of lists (3), where
         - lists (3) represents the files that a batch outputs
         - lists (2) represents each command to the terminal
+
+    Check tests/unit_test/test_remembrance.py -> test_construct_list_files()
     """
     # Constructor list file
 
@@ -298,3 +302,34 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list = None):
     result = recursively_add_txt(result)
     return result
 
+
+def all_file_exists(data_list, data_directory = None, test = False):
+    all_files_exist = True
+    
+    if test == True:
+        relative_dir_path ="tests/unit/test_data/remembrance/"
+        data_directory = os.path.join(os.getcwd(), relative_dir_path)
+
+
+
+    for data_file in data_list:
+        file_path = data_directory +  data_file
+        
+        # Using glob to check if the file exists
+
+        if not exists(file_path):
+            print(f"File not found: {file_path}")
+            all_files_exist = False
+
+    return all_files_exist
+
+def get_index_of_needed_tasks(data_list, data_directory = None, test = False):
+    res_lst = []
+
+    for lst in data_list:
+        if all_file_exists(lst, data_directory, test):
+            res_lst.append(True)
+        else:
+            res_lst.append(False)
+
+    return res_lst

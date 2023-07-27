@@ -8,6 +8,7 @@ include = ["g4blplot"]
 
 [project]
 name = "jjsm-fermi"
+version = "1.0.1"
 authors = [
   { name="Jasmine Tang", email="tanghocle456@gmail.com" },
 ]

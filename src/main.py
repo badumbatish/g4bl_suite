@@ -13,13 +13,47 @@ if __name__ == "__main__":
         angle[i] = f"{starting_angle+(i)*0.004:.4f}"
     print(angle)
 
-    file_name = "g4beamline_script/Pion_Line_BeamEllipse.g4bl"
+    file_name = "Pion_Line_BeamEllipse.g4bl"
     quad_multiplier = 1.5
     multiplier = 1.5
-    command = "/Applications/G4beamline-3.08.app/Contents/MacOS/g4bl"
+    command = "/home/jjsm/G4beamline-3.08-source/build/bin/g4bl"
     param_dict = {
-        "_meanMomentum": [100, 200, 300],
-        "_meanXp": [-0.4, -0.2, 0, 0.2, 0.4],
+        "_meanMomentum": [100],
+        "nEv": [initial_pion],
+        "_sigmaXY": [-5],
+        "_sigmaXYp": angle,
+        ("Magnet", "QUADgradient13", "QUADgradient2", "SOLcurrent"): (
+            [
+                "Quadx1.5SolOFF",
+                f"{0.140*quad_multiplier:.4f}",
+                f"{-0.155*quad_multiplier:.4f}",
+                f"{158.2*0:.4f}",
+            ],
+            [
+                "Quadx1.5SolNOR",
+                f"{0.140*quad_multiplier:.4f}",
+                f"{-0.155*quad_multiplier:.4f}",
+                f"{158.2*1:.4f}",
+            ],
+            [
+                "Quadx1.5Solx1.5",
+                f"{0.140*quad_multiplier:.4f}",
+                f"{-0.155*quad_multiplier:.4f}",
+                f"{158.2*1.5:.4f}",
+            ],
+            [
+                "Quadx1.5Solx2.0",
+                f"{0.140*quad_multiplier:.4f}",
+                f"{-0.155*quad_multiplier:.4f}",
+                f"{158.2*2:.4f}",
+            ],
+            [
+                "Quadx.15Solx2.5",
+                f"{0.140*quad_multiplier:.4f}",
+                f"{-0.155*quad_multiplier:.4f}",
+                f"{158.2*2.5:.4f}",
+            ],
+        ),
     }
 
     plot.automate(
@@ -99,3 +133,4 @@ if __name__ == "__main__":
     fig.savefig("normalized.pdf", bbox_inches="tight")
     plt.show()
     """
+

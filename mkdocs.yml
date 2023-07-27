@@ -3,10 +3,16 @@ site_name: g4blplot
 
 repo_url: https://github.com/badumbatish/fermi_proj
 repo_name: 'GitHub'
+theme:
+  name: "material"
 
-
+plugins:
+  - search
+  - mkdocstrings
 nav:
   - Home: index.md
   - About: about.md
   - Automation: automation/README.md 
+  - Code Reference:
+    - hi: reference.md
 

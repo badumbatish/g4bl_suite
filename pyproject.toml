@@ -8,7 +8,6 @@ include = ["g4blplot"]
 
 [project]
 name = "jjsm-fermi"
-version = "0.0.3"
 authors = [
   { name="Jasmine Tang", email="tanghocle456@gmail.com" },
 ]
@@ -24,6 +23,8 @@ dependencies = [
   "build==0.10.0",
   "pandas==2.0.2",
   "pika==1.3.1",
+  "mkdocstrings[python]",
+  "mkdocs-material",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

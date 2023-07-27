@@ -84,7 +84,7 @@ def hist_plot(axes, data, xlabel: str = ""):
             a 1D numpy array
 
     Returns:
-    A historgram plot with extra descriptive data of count, mean, std, min, 25,50,75 percentile, and max.
+        A historgram plot with extra descriptive data of count, mean, std, min, 25,50,75 percentile, and max.
     ----------
     """
     axes.hist(data)

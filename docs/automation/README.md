@@ -1,7 +1,7 @@
 # Automation Documentation
 
 This section instructs you how to use g4blplot.automate(). For installation instructions, refer to [https://github.com/badumbatish/fermi_proj/](https://badumbatish.github.io/fermi_proj/) for documentation, including installation, general usage, development and others.
-
+Please open up a GitHub issue (and/or) a pull request for recommendation on updating this documentation.
 
 Ever wish you were able to tell your computer to parallel process different configurations of parameters of your G4Beamline file overnight so you can go to sleep peacefully and wake up with fresh data to process
 
@@ -19,6 +19,7 @@ Just telling it: "Hey hey hey, here are:"
 
 * [Optional] How many cores should each G4BLMPI batch run
 
+* [Optional] The data directory you want automate to search and skip tasks on 
 
 Well, here comes
 
@@ -51,3 +52,62 @@ For data processing of multiple files, users can use itertools.product() to outp
 
 
 ## Set-up
+
+### G4beamline Script Set-up
+
+#### Parameters
+
+In this example
+
+* The parameter for the mean momentum is _meanMomentum
+
+* The parameter for the mean angle of the x-axis is _meanXp
+
+Start by adding **-unset** to all of your parameters in your .g4bl file.
+
+
+```g4bl
+param -unset _meanMomentum=100
+param -unset _meanXp=0
+```
+
+
+
+#### Detector output
+
+##### ASCII Formatting
+*Before:*
+```g4bl
+virtualdetector Det radius=15.875 length=1 color=1,1,1 material=Vacuum
+```
+
+*After:*
+```g4bl
+virtualdetector Det radius=15.875 length=1 color=1,1,1 material=Vacuum format=ascii
+```
+##### Output file renaming
+
+Place a detector at some coordinate and include a *rename* command in the same line in the g4bl script
+
+The general (accepted by g4blplot.automate) format to format the output file name is 
+```g4bl
+param1$_param1|param2$_param2|param3$_param3[|post_fix]
+```
+where [...] is optional
+
+
+For example:
+
+```g4bl
+place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_8 z=5921
+```
+### Python script Set-up
+
+The script should start with
+```python3
+from g4blplot import g4blplot
+```
+
+Then the user should start by creating a parameter dictionary *param_dict* to feed it into *g4blplot.automate()*
+
+For more information, please visit:

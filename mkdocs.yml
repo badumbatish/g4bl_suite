@@ -4,3 +4,9 @@ site_name: g4blplot
 repo_url: https://github.com/badumbatish/fermi_proj
 repo_name: 'GitHub'
 
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Automation: automation/README.md 
+

@@ -95,19 +95,77 @@ param1$_param1|param2$_param2|param3$_param3[|post_fix]
 ```
 where [...] is optional
 
+The | is to separate different parameters.
+
+The $ is to reference the value of that parameters.
 
 For example:
 
 ```g4bl
-place Det rename=MeV$_meanMomentum|nEv$nEv|Magnet$Magnet|angle$_sigmaXYp|detector_8 z=5921
+place Det rename=_meanMomentum$_meanMomentum|_meanXp$_meanXp z=5921
 ```
 ### Python script Set-up
 
 The script should start with
+
 ```python3
 from g4blplot import g4blplot
 ```
 
+
 Then the user should start by creating a parameter dictionary *param_dict* to feed it into *g4blplot.automate()*
 
-For more information, please visit:
+```python3
+
+param_dict = {
+
+    "_meanMomentum": [100,200,300],
+
+    "_meanXp": [-0.4,-0.2,0,0.2,0.4]
+}
+
+```
+
+Check if the python process you are executing is main and execute the automate() function if true:
+
+```python3
+
+if __name__ == '__main__':
+
+    plot.automate(cmd = "/Applications/G4beamline-3.08.app/Contents/MacOS/g4bl",
+                    param_dict=param_dict,
+                    file_name = "g4beamline_script/Pion_Line_BeamEllipse.g4bl",
+                    total_process_count=4)
+```
+When you run this python program, below is its output, there should be a bar counting and update you on your computing progress (assuming you wrote the correct g4beamline script that you have tested already):
+
+  
+Here we call the python file in the root directory, with one of its subdirectory is g4beamline_script
+```bash
+python3 src/main.py
+Creating pool with total process count = 4, pool process count = 4, G4BLMPI process count = None
+
+Batch progress bar: 100%|████████████████████████████████████████████████████████████████████████████████| 15/15 [00:03<00:00, 4.89it/s]
+
+```
+
+  
+
+You will have these files in the file directory that you run your g4bl command.
+
+```bash
+
+jjsm@Jasmines-MacBook-Air fermi_proj % ls det*.txt
+
+_meanMomentum100|_meanXp-0.2.txt _meanMomentum100|_meanXp0.4.txt  _meanMomentum200|_meanXp-0.4.txt _meanMomentum200|_meanXp0.txt    _meanMomentum300|_meanXp0.2.txt
+_meanMomentum100|_meanXp-0.4.txt _meanMomentum100|_meanXp0.txt    _meanMomentum200|_meanXp0.2.txt  _meanMomentum300|_meanXp-0.2.txt _meanMomentum300|_meanXp0.4.txt
+_meanMomentum100|_meanXp0.2.txt  _meanMomentum200|_meanXp-0.2.txt _meanMomentum200|_meanXp0.4.txt  _meanMomentum300|_meanXp-0.4.txt _meanMomentum300|_meanXp0.txt
+
+
+```
+
+Here, we see that the g4beamline script outputs where we call the python script, not where the python script is located.
+
+We should then cd into a data directory and call the script from there
+
+End of documentation.

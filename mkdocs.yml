@@ -14,5 +14,5 @@ nav:
   - About: about.md
   - Automation: automation/README.md 
   - Code Reference:
-    - g4blplot: g4blplot.reference.md
+    - g4blplot.py: g4blplot.reference.md
 

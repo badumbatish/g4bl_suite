@@ -1,15 +1,13 @@
-import glob
+from typing import List
 import itertools
 import multiprocessing as mp
 import os
 import subprocess
-from operator import pos
 from os.path import exists
 
 import matplotlib.pyplot as plt
 import mpl_scatter_density
 import numpy as np
-import pandas as pd
 import tqdm
 
 feature_list = [
@@ -34,14 +32,13 @@ particle_dict = {"pi-": -211, "mu-": 13, "mu+": -13}
 def add_text_file(file_name: str):
     """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and raise exception if file does not exists
 
-    Parameters
-    ----------
-    file_name: str
+    Args:
+        file_name:
+            str
 
-    Returns
-    ----------
-    data
-        a 2D numpy array
+    Returns:
+        data:
+            a 2D numpy array
     """
 
     if exists(file_name):
@@ -56,17 +53,16 @@ def add_text_file(file_name: str):
 
 def scatter_plot(axes, x_axis, y_axis, heat_map: bool = False):
     """Scatter plot an axes based on 2 1D numpy array
-    Parameters
-    ----------
-    axes :
-        an object subplot from matplotlib that is a
-    x_axis :
-        1D array that denotes what to plot on the x axis
-    y_axis :
-        1D array that denotes what to plot on the y axis
 
-    Returns
-    ----------
+    Args:
+        axes :
+            an object subplot from matplotlib that is a
+        x_axis :
+            1D array that denotes what to plot on the x axis
+        y_axis :
+            1D array that denotes what to plot on the y axis
+
+    Returns:
         Function returns nothing, only plots a graph to the axes
     """
 
@@ -81,11 +77,11 @@ def hist_plot(axes, data, xlabel: str = ""):
     """
         This function plots histogram in the axes
 
-    Parameters
-    ----------
-    axes : an axe plot
-
-    data : a 1D numpy array
+    Args: 
+        axes:
+            an axe plot
+        data:
+            a 1D numpy array
 
     Returns:
     A historgram plot with extra descriptive data of count, mean, std, min, 25,50,75 percentile, and max.
@@ -102,15 +98,13 @@ def hist_plot(axes, data, xlabel: str = ""):
 def set_fig_misc(fig, beam_type, plot_type):
     """Sets miscellaneous features of a figure
 
-    Parameters
-    ----------
-    fig :
+    Args:
+        fig :
 
-    beam_type :
+        beam_type :
 
-    plot_type :
-    Returns
-    ----------
+        plot_type :
+    Returns:
     """
     fig.suptitle((f"{beam_type.capitalize()} beam {plot_type}"))
     fig.supxlabel(f"x {plot_type}")
@@ -126,11 +120,13 @@ def save_figure(fig, file_name, dpi=300):
 def extract_particle_data(data, particle_name=None, particle_id=None):
     """Extracts a numpy array of only a certain particle out of a raw data
 
-    Parameters
-    ----------
+    Args:
 
-    Returns
-    ----------
+    Returns:
+        A 2D numpy array containing only that singular particle data type
+
+    Raises:
+        An exception if there is no particle id or particle name
     """
     mask = None
     # make a 1D array mask that returns true if the PID is satisfy
@@ -149,12 +145,18 @@ def extract_particle_data(data, particle_name=None, particle_id=None):
 
 
 def get_feature(data, feature_name):
+    """
+        Returns a 1D NumPy array that is the feature in the original 2D NumPy array
+
+    """
     return data[:, feature_dict[feature_name]]
 
 
 def get_xangle(data):
     """
-    This function returns a 1D array consisting of xp = Px/Pz in milliradian
+        This function returns a 1D array consisting of xp = Px/Pz in milliradian
+
+        Uses numpy for its computation
     """
     Px = data[:, feature_dict["Px"]]
     Pz = data[:, feature_dict["Pz"]]
@@ -174,7 +176,7 @@ def tuple_zipl(args):
 
 def get_yangle(data):
     """
-    This function returns a 1D array consisting of yp = Py/Pz in milliradian
+        This function returns a 1D array consisting of yp = Py/Pz in milliradian
     """
     Py = data[:, feature_dict["Py"]]
     Pz = data[:, feature_dict["Pz"]]
@@ -183,6 +185,10 @@ def get_yangle(data):
 
 
 def get_particle_count(data, particle_name=None, particle_id=None):
+    """
+        Get the count of a particular particle
+
+    """
     if particle_id is not None:
         res = np.count_nonzero(data[:, feature_dict["PDGid"]] == particle_id)
     elif particle_name is not None:
@@ -202,17 +208,35 @@ def run_command(args):
     result = subprocess.run(args, stdout=subprocess.DEVNULL)
 
 
-def isG4BL(cmd: str):
+def isG4BL(cmd: str) -> bool:
+    """
+    Check if a string representing a command ends in g4bl
+    Args:
+    Returns:
+        boolean
+
+    """
     return cmd.endswith("g4bl")
 
 
-def isG4BLMPI(cmd: str):
+def isG4BLMPI(cmd: str) -> bool:
+    """
+    Check if a string representing a command ends in g4blmpi
+    Args:
+    Returns:
+        boolean
+
+    """
     return cmd.endswith("g4blmpi")
 
 
-def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
+def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None) -> List[List[str]]:
     """
     Generates a list of arguments that is the first parameter for subprocess.run
+
+
+    Returns:
+        List A of list B of strings, where each list B is 1 config to pass to the command line via subprocess.run
     """
     for key, value in param_dict.items():
         key = tuple(value)
@@ -253,7 +277,6 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
         each_combination = flatten(each_combination)
         for i, value in enumerate(each_combination):
             lst.append(f"{keys[i]}={value}")
-        ## print(lst)
         args.append(lst)
 
     return args
@@ -272,7 +295,13 @@ def automate(
     detector_lst=None,
     data_directory=None,
 ):
-    """ """
+    """
+    Automating, automating, gaslighting, girlbossing, gatekeeping, mmm-kayyyy
+
+    Automate the search space/high parameter space with G4beamline, refers to the link of Automation in the Documentation page
+    Links: 
+        https://badumbatish.github.io/fermi_proj/automation/
+    """
     args = generate_args(cmd, param_dict, file_name, str(mpi_count))
 
     args = skip_task_by_list(args, detector_lst, data_directory)
@@ -298,9 +327,10 @@ def automate(
         )
 
 
-def filter_args(arg_lists: list):
+def filter_args(arg_lists: list) -> List[List[str]]:
     """
-    Return a list of list containing string of only type "key=value"
+    Returns:
+        a list of list containing string of only type "key=value"
 
     """
     result = []
@@ -316,10 +346,8 @@ def filter_args(arg_lists: list):
 
 def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
     """
-    Constructs a list (1) of lists (2) of lists (3), where
-        - lists (3) represents the files that a batch outputs
-        - lists (2) represents each command to the terminal
-
+    Constructs a list (1) of lists (2) of lists (3), where lists (3) represents the files that a batch outputs, lists (2) represents each command to the terminal.
+    This function essentially constructs a list of files from the argument list generated by generate_args() and filtered via filter_args()
     Check tests/unit_test/test_remembrance.py -> test_construct_list_files()
     """
     # Constructor list file
@@ -358,7 +386,13 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
     return result
 
 
-def all_file_exists(data_list, data_directory=None, test=False):
+def all_file_exists(data_list, data_directory=None, test=False) -> bool:
+    """
+    Returns:
+        A boolean value that returns True if all the files in data_list, located in data_directory. It'll return false if one or more files is not present.
+
+
+    """
     all_files_exist = True
 
     if test is True:
@@ -368,8 +402,6 @@ def all_file_exists(data_list, data_directory=None, test=False):
     for data_file in data_list:
         file_path = data_directory + data_file
 
-        # Using glob to check if the file exists
-
         if not exists(file_path):
             print(f"File not found: {file_path}")
             all_files_exist = False
@@ -377,7 +409,7 @@ def all_file_exists(data_list, data_directory=None, test=False):
     return all_files_exist
 
 
-def get_index_of_needed_tasks(data_list, data_directory=None, test=False):
+def get_index_of_needed_tasks(data_list, data_directory=None, test=False) -> List[bool]:
     """
     Accepts a list of data files, and return a list of index that needs the tasks
 
@@ -395,7 +427,13 @@ def get_index_of_needed_tasks(data_list, data_directory=None, test=False):
 
 def skip_task_by_list(
     generated_args: list, postfix_string_lst: list, data_directory=None, test=False
-):
+) -> List[List[str]]:
+    """
+        For a list of tasks, it returns a new list of tasks that skip over already pre-computed tasks
+
+    Returns:
+        A new list of tasks that g4beamline haven't computed
+    """
     # index_list = get_index_of_needed_tasks(data_list, data_directory, test)
 
     new_lst = []

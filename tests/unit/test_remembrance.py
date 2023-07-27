@@ -181,4 +181,21 @@ def test_get_index_of_needed_tasks():
 
 
 def test_skip_task_by_list():
-    assert True
+    param_dict = {"_meanMomentum": ["100", "200", "300"], "angle": [1, 2, 3]}
+
+    generated_args = g4blplot.generate_args(g4bl_cmd, param_dict, file_name, 1)
+    postfix_string_list = [
+        "detector1",
+        "detector2",
+    ]
+
+    result_list = [
+        ["g4bl", "file_name", "_meanMomentum=100", "angle=1"],
+        ["g4bl", "file_name", "_meanMomentum=100", "angle=2"],
+        ["g4bl", "file_name", "_meanMomentum=100", "angle=3"],
+        ["g4bl", "file_name", "_meanMomentum=300", "angle=3"],
+    ]
+    assert (
+        g4blplot.skip_task_by_list(generated_args, postfix_string_list, None, True)
+        == result_list
+    )

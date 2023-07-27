@@ -261,10 +261,19 @@ def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None):
 
 
 def automate(
-    cmd: str, param_dict: dict, file_name: str, total_process_count=1, mpi_count=None
+    cmd: str,
+    param_dict: dict,
+    file_name: str,
+    total_process_count=1,
+    mpi_count=None,
+    detector_lst=None,
+    data_directory=None,
 ):
     """ """
     args = generate_args(cmd, param_dict, file_name, str(mpi_count))
+
+    args = skip_task_by_list(args, detector_lst, data_directory)
+
     process_count = 0
     if mpi_count is None:
         process_count = int(total_process_count)
@@ -366,6 +375,10 @@ def all_file_exists(data_list, data_directory=None, test=False):
 
 
 def get_index_of_needed_tasks(data_list, data_directory=None, test=False):
+    """
+    Accepts a list of data files, and return a list of index that needs the tasks
+
+    """
     res_lst = []
 
     for lst in data_list:
@@ -377,5 +390,21 @@ def get_index_of_needed_tasks(data_list, data_directory=None, test=False):
     return res_lst
 
 
-def skip_task_by_list(data_list):
-    return
+def skip_task_by_list(
+    generated_args: list, postfix_string_lst: list, data_directory=None, test=False
+):
+    # index_list = get_index_of_needed_tasks(data_list, data_directory, test)
+
+    new_lst = []
+
+    filtered_arg_list = filter_args(generated_args)
+    data_list = construct_list_files(
+        filtered_arg_list=filtered_arg_list, postfix_string_list=postfix_string_lst
+    )
+
+    index_list = get_index_of_needed_tasks(data_list, data_directory, test)
+    for index, boolean_value in enumerate(index_list):
+        if boolean_value is True:
+            new_lst.append(generated_args[index])
+
+    return new_lst

@@ -5,9 +5,7 @@ This library provides a soft interaction wall between G4Beamline and scientists.
 It doesn't use OOP, only functions. The function mostly manipulates 2D and 1D numpy arrays under the hood and also returns numpy arrays that can be manipulated directly by scientists.
 
 # Documentation
-See [https://github.com/badumbatish/fermi_proj/wiki](https://badumbatish.github.io/fermi_proj/) for documentation
-
-See https://github.com/badumbatish/fermi_proj/wiki/Automation for automation of tasks
+See [https://github.com/badumbatish/fermi_proj/](https://badumbatish.github.io/fermi_proj/) for documentation, including installation, usage and development.
 ## Basic set up
 
 ### Set your virtual detector to output ascii text format

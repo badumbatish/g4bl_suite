@@ -1,9 +1,9 @@
-from typing import List
 import itertools
 import multiprocessing as mp
 import os
 import subprocess
 from os.path import exists
+from typing import List
 
 import matplotlib.pyplot as plt
 import mpl_scatter_density
@@ -77,7 +77,7 @@ def hist_plot(axes, data, xlabel: str = ""):
     """
         This function plots histogram in the axes
 
-    Args: 
+    Args:
         axes:
             an axe plot
         data:
@@ -146,7 +146,7 @@ def extract_particle_data(data, particle_name=None, particle_id=None):
 
 def get_feature(data, feature_name):
     """
-        Returns a 1D NumPy array that is the feature in the original 2D NumPy array
+    Returns a 1D NumPy array that is the feature in the original 2D NumPy array
 
     """
     return data[:, feature_dict[feature_name]]
@@ -154,9 +154,9 @@ def get_feature(data, feature_name):
 
 def get_xangle(data):
     """
-        This function returns a 1D array consisting of xp = Px/Pz in milliradian
+    This function returns a 1D array consisting of xp = Px/Pz in milliradian
 
-        Uses numpy for its computation
+    Uses numpy for its computation
     """
     Px = data[:, feature_dict["Px"]]
     Pz = data[:, feature_dict["Pz"]]
@@ -176,7 +176,7 @@ def tuple_zipl(args):
 
 def get_yangle(data):
     """
-        This function returns a 1D array consisting of yp = Py/Pz in milliradian
+    This function returns a 1D array consisting of yp = Py/Pz in milliradian
     """
     Py = data[:, feature_dict["Py"]]
     Pz = data[:, feature_dict["Pz"]]
@@ -186,7 +186,7 @@ def get_yangle(data):
 
 def get_particle_count(data, particle_name=None, particle_id=None):
     """
-        Get the count of a particular particle
+    Get the count of a particular particle
 
     """
     if particle_id is not None:
@@ -230,7 +230,9 @@ def isG4BLMPI(cmd: str) -> bool:
     return cmd.endswith("g4blmpi")
 
 
-def generate_args(cmd: str, param_dict: dict, file_name: str, mpi_count=None) -> List[List[str]]:
+def generate_args(
+    cmd: str, param_dict: dict, file_name: str, mpi_count=None
+) -> List[List[str]]:
     """
     Generates a list of arguments that is the first parameter for subprocess.run
 
@@ -299,7 +301,7 @@ def automate(
     Automating, automating, gaslighting, girlbossing, gatekeeping, mmm-kayyyy
 
     Automate the search space/high parameter space with G4beamline, refers to the link of Automation in the Documentation page
-    Links: 
+    Links:
         https://badumbatish.github.io/fermi_proj/automation/
     """
     args = generate_args(cmd, param_dict, file_name, str(mpi_count))

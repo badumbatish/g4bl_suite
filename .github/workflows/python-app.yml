@@ -43,6 +43,13 @@ jobs:
       run: |
         pytest
         
-    - name: Deploy MkDocs
-      uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
+    - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+    - run: pip install mkdocs-material 
+    - run: mkdocs gh-deploy --force
 

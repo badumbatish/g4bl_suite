@@ -306,7 +306,8 @@ def automate(
     """
     args = generate_args(cmd, param_dict, file_name, str(mpi_count))
 
-    args = skip_task_by_list(args, detector_lst, data_directory)
+    if not (data_directory is None):
+        args = skip_task_by_list(args, detector_lst, data_directory)
 
     process_count = 0
     if mpi_count is None:

@@ -1,36 +1,31 @@
-from g4blplot import g4blplot as plot
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-if __name__ == '__main__':
+from g4blplot import g4blplot as plot
 
+if __name__ == "__main__":
     initial_pion = 100
     num = 13
-    angle = [None]*num
+    angle = [None] * num
     starting_angle = 0.002
-    divider = initial_pion/100000
+    divider = initial_pion / 100000
     for i in range(0, num):
         angle[i] = f"{starting_angle+(i)*0.004:.4f}"
     print(angle)
 
-    file_name = "Pion_Line_BeamEllipse.g4bl"
+    file_name = "g4beamline_script/Pion_Line_BeamEllipse.g4bl"
     quad_multiplier = 1.5
-    multiplier = 1.5 
-    command = "/home/jjsm/G4beamline-3.08-source/build/bin/g4bl"
+    multiplier = 1.5
+    command = "/Applications/G4beamline-3.08.app/Contents/MacOS/g4bl"
     param_dict = {
-        "_meanMomentum": [100],
-        "nEv" : [initial_pion],
-        "_sigmaXY": [-5],
-        "_sigmaXYp": angle,
-        ("Magnet","QUADgradient13", "QUADgradient2", "SOLcurrent") : (["Quadx1.5SolOFF"         , f"{0.140*quad_multiplier:.4f}"     , f"{-0.155*quad_multiplier:.4f}"    ,f"{158.2*0:.4f}"],
-                                                                     ["Quadx1.5SolNOR",     f"{0.140*quad_multiplier:.4f}"     , f"{-0.155*quad_multiplier:.4f}"    ,f"{158.2*1:.4f}"],
-                                                                    ["Quadx1.5Solx1.5",              f"{0.140*quad_multiplier:.4f}"     , f"{-0.155*quad_multiplier:.4f}"    ,f"{158.2*1.5:.4f}"],
-                                                                    ["Quadx1.5Solx2.0",              f"{0.140*quad_multiplier:.4f}"     , f"{-0.155*quad_multiplier:.4f}"    ,f"{158.2*2:.4f}"],
-                                                                    ["Quadx.15Solx2.5",              f"{0.140*quad_multiplier:.4f}"     , f"{-0.155*quad_multiplier:.4f}"    ,f"{158.2*2.5:.4f}"],)
+        "_meanMomentum": [100, 200, 300],
+        "_meanXp": [-0.4, -0.2, 0, 0.2, 0.4],
     }
 
-    plot.automate(command,param_dict,file_name,total_process_count=10,mpi_count=None)
-    
+    plot.automate(
+        command, param_dict, file_name, total_process_count=10, mpi_count=None
+    )
+
     """
     magType = ["QuadNORSolOFF",
                 "QuadNORSolNOR",
@@ -104,7 +99,3 @@ if __name__ == '__main__':
     fig.savefig("normalized.pdf", bbox_inches="tight")
     plt.show()
     """
-    
-
-    
-    

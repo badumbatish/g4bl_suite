@@ -29,7 +29,7 @@ feature_dict = {key: value for (value, key) in enumerate(feature_list)}
 particle_dict = {"pi-": -211, "mu-": 13, "mu+": -13}
 
 
-def add_text_file(file_name: str):
+def add_text_file(file_name: str, **kwargs):
     """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and raise exception if file does not exists
 
     Args:
@@ -42,7 +42,7 @@ def add_text_file(file_name: str):
     """
 
     if exists(file_name):
-        data = np.loadtxt(file_name)
+        data = np.genfromtxt(fname=file_name, **kwargs)
     else:
         raise Exception(f"The file {file_name} does not exist")
 

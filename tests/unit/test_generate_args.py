@@ -1,4 +1,4 @@
-from g4bl_suite.g4blplot import generate_args, tuple_zipl
+from g4bl_suite.Automator import Automator
 
 g4bl_cmd = "g4bl"
 g4blmpi_cmd = "g4blmpi"
@@ -7,9 +7,16 @@ file_name = "file_name"
 
 def test_int_list_with_int_list():
     param_dict = {"_meanMomentum": [100, 200, 300], "angle": [1, 2, 3]}
-    generated_args = generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+
+    generated_args = automator.generate_args()
+
     test_args = [
         [g4bl_cmd, file_name, "_meanMomentum=100", "angle=1"],
         [g4bl_cmd, file_name, "_meanMomentum=100", "angle=2"],
@@ -26,9 +33,16 @@ def test_int_list_with_int_list():
 
 def test_str_list_with_int_list():
     param_dict = {"_meanMomentum": ["100", "200", "300"], "angle": [1, 2, 3]}
-    generated_args = generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+
+    generated_args = automator.generate_args()
+
     test_args = [
         [g4bl_cmd, file_name, "_meanMomentum=100", "angle=1"],
         [g4bl_cmd, file_name, "_meanMomentum=100", "angle=2"],
@@ -45,9 +59,14 @@ def test_str_list_with_int_list():
 
 def test_mixed_list_with_intfloat_list():
     param_dict = {"_meanMomentum": [100, "200", 300], "angle": [1.0, 2, 3]}
-    generated_args = generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+
+    generated_args = automator.generate_args()
     test_args = [
         [g4bl_cmd, file_name, "_meanMomentum=100", "angle=1.0"],
         [g4bl_cmd, file_name, "_meanMomentum=100", "angle=2"],
@@ -64,9 +83,14 @@ def test_mixed_list_with_intfloat_list():
 
 def test_list_with_tuples_of_lists():
     param_dict = {"_meanMomentum": [100], ("a", "b", "c"): [[4, 5, 6], [5, 6, 7]]}
-    generated_args = generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+
+    generated_args = automator.generate_args()
     test_args = [
         [g4bl_cmd, file_name, "_meanMomentum=100", "a=4", "b=5", "c=6"],
         [g4bl_cmd, file_name, "_meanMomentum=100", "a=5", "b=6", "c=7"],
@@ -81,9 +105,15 @@ def test_tuple_zipl():
         "_meanMomentum": [100],
         ("a", "b"): [list(v) for v in zip(list1, list2)],
     }
-    generated_args = generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+
+    generated_args = automator.generate_args()
     test_args = [
         [g4bl_cmd, file_name, "_meanMomentum=100", "a=4", "b=6"],
         [g4bl_cmd, file_name, "_meanMomentum=100", "a=5", "b=7"],
@@ -98,9 +128,14 @@ def test_singular_tuple():
             ["Quadx1.5SolOFF", 0, 0, 0]
         ],
     }
-    generated_args = generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+
+    generated_args = automator.generate_args()
     test_args = [
         [
             g4bl_cmd,

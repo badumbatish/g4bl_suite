@@ -28,7 +28,7 @@ See [https://github.com/badumbatish/fermi_proj/](https://badumbatish.github.io/f
 ## Usage
 
 ```python
-from g4bl_suite import g4blplot as plot
+from g4bl_suite import Automator as plot
 import matplotlib.pyplot as plt
 
 particle_type = "pi-"

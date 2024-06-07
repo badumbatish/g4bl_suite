@@ -1,7 +1,8 @@
 import os
 from os.path import exists
 
-from g4bl_suite import g4blplot
+from g4bl_suite import Automator
+from g4bl_suite.Automator import Automator
 
 path = os.path.dirname(os.path.realpath(__file__))  # directory path of the app
 
@@ -18,9 +19,13 @@ def test_is_file_exists():
 
 def test_extract_from_args():
     param_dict = {"_meanMomentum": ["100", "200", "300"], "angle": [1, 2, 3]}
-    generated_args = g4blplot.generate_args(
-        cmd=g4bl_cmd, param_dict=param_dict, file_name=file_name
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
     )
+    generated_args = automator.generate_args()
     """
     The generated arguments will look like this 
     generator_args = [
@@ -46,7 +51,7 @@ def test_extract_from_args():
         ["_meanMomentum=300", "angle=2"],
         ["_meanMomentum=300", "angle=3"],
     ]
-    assert g4blplot.filter_args(generated_args) == test_args
+    assert automator.filter_args(generated_args) == test_args
 
 
 def test_construct_list_files():
@@ -104,8 +109,10 @@ def test_construct_list_files():
             "_meanMomentum300|angle3|detector2.txt",
         ],
     ]
+
+    automator = Automator()
     assert (
-        g4blplot.construct_list_files(
+        automator.construct_list_files(
             filtered_arg_list=filtered_arg_list, postfix_string_list=postfix_string_list
         )
         == test_args
@@ -118,7 +125,9 @@ def test_all_file_exists():
         "_meanMomentum100|angle1|detector1.txt",
         "_meanMomentum100|angle1|detector2.txt",
     ]
-    assert g4blplot.all_file_exists(all_lst, data_directory=None, test=True) == True
+
+    automator = Automator()
+    assert automator.all_file_exists(all_lst, data_directory=None, test=True) is True
 
     # Half of list of file exists, should return False
     half_lst = [
@@ -126,7 +135,7 @@ def test_all_file_exists():
         "_meanMomentum200|angle1|detector2.txt",
     ]
 
-    assert g4blplot.all_file_exists(half_lst, data_directory=None, test=True) == False
+    assert automator.all_file_exists(half_lst, data_directory=None, test=True) is False
 
 
 def test_get_index_of_needed_tasks():
@@ -155,7 +164,8 @@ def test_get_index_of_needed_tasks():
     ]
 
     # Same as def test_all_file_exists():
-    data_list_of_list = g4blplot.construct_list_files(
+    automator = Automator()
+    data_list_of_list = automator.construct_list_files(
         filtered_arg_list=filtered_arg_list, postfix_string_list=postfix_string_list
     )
 
@@ -171,7 +181,7 @@ def test_get_index_of_needed_tasks():
 
     assert True
     assert (
-        g4blplot.get_index_of_needed_tasks(
+        automator.get_index_of_needed_tasks(
             data_list=data_list_of_list, data_directory=None, test=True
         )
         == result_list
@@ -181,7 +191,14 @@ def test_get_index_of_needed_tasks():
 def test_skip_task_by_list():
     param_dict = {"_meanMomentum": ["100", "200", "300"], "angle": [1, 2, 3]}
 
-    generated_args = g4blplot.generate_args(g4bl_cmd, param_dict, file_name, 1)
+    automator = (
+        Automator()
+        .set_params_dict(param_dict)
+        .set_cmd(g4bl_cmd)
+        .set_file_name(file_name)
+    )
+
+    generated_args = automator.generate_args()
     postfix_string_list = [
         "detector1",
         "detector2",
@@ -194,6 +211,6 @@ def test_skip_task_by_list():
         ["g4bl", "file_name", "_meanMomentum=300", "angle=3"],
     ]
     assert (
-        g4blplot.skip_task_by_list(generated_args, postfix_string_list, None, True)
+        automator.skip_task_by_list(generated_args, postfix_string_list, None, True)
         == result_list
     )

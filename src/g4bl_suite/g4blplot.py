@@ -156,8 +156,10 @@ def filter_args(arg_lists: List[List[str]]) -> List[List[str]]:
     Examples:
     >>> filter_args([["name=John", "age=30"], ["error", "size=medium"]])
     [['name=John', 'age=30'], ['size=medium']]
+
     >>> filter_args([["valid=100", "invalid"], [], ["key=value", "setting"]])
     [['valid=100'], ['key=value']]
+
     >>> filter_args([["123", "check=ok"], ["test=", "=data"]])
     [['check=ok']]
     """

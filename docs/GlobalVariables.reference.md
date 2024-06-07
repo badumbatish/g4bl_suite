@@ -1,1 +1,1 @@
-::: src.g4bl_suite.GlobalVariables
+::: src.g4bl_suite.DataAnalyzer

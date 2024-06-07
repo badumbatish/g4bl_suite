@@ -14,9 +14,9 @@ nav:
   - About: about.md
   - Automation: automation/README.md 
   - Code Reference:
-    - g4blplot.py: g4bl_suite.g4blplot.reference.md
-    - DataAnalyzer.py: g4bl_suite.DataAnalyzer.reference.md
-    - GlobalVariables.py: g4bl_suite.GlobalVariables.reference.md
+    - g4blplot.py: g4blplot.reference.md
+    - DataAnalyzer class and related functions: DataAnalyzer.reference.md
+    - Global Variables: GlobalVariables.reference.md
 
 
 

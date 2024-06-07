@@ -3,7 +3,7 @@ import os
 from os.path import exists
 from pathlib import Path
 
-from g4blplot import g4blplot
+from g4bl_suite import g4blplot
 
 path = os.path.dirname(os.path.realpath(__file__))  # directory path of the app
 

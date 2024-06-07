@@ -1,4 +1,4 @@
-from g4blplot.g4blplot import generate_args, tuple_zipl
+from g4bl_suite.g4blplot import generate_args, tuple_zipl
 
 g4bl_cmd = "g4bl"
 g4blmpi_cmd = "g4blmpi"

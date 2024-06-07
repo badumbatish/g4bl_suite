@@ -250,22 +250,19 @@ def generate_args(
         List A of list B of strings, where each list B is 1 config to pass to the command line via subprocess.run
     """
     keys = []
-    for element in param_dict.keys():
-        if not isinstance(element, tuple):
-            keys.append(element)
-        else:
-            keys.extend(element)
-
     values = []
-    for element in param_dict.values():
-        if not isinstance(element, tuple):
-            values.append(element)
-        else:
-            values.append(list(v for v in element))
+    for key, value in param_dict.items():
+        # Handle keys: Extend with elements if key is a tuple
+        # or add the key itself in form of a list if it's not a tuple
+        keys.extend(key if isinstance(key, tuple) else [key])
 
-    combination = list(itertools.product(*param_dict.values()))
+        # Handle values: Append the value converted into a list if it's a tuple, otherwise append the value itself
+        values.append(list(value) if isinstance(value, tuple) else value)
 
-    # combination =  list(itertools.product(*values))
+    # combinations = list(itertools.product(*param_dict.values()))
+
+    combinations = list(itertools.product(*values))
+
     def flatten(a):
         rt = []
         for x in a:
@@ -276,13 +273,13 @@ def generate_args(
         return rt
 
     args = []
-    for each_combination in combination:
+    for combination in combinations:
         lst = [cmd]
         if is_g4bl_mpi(cmd):
             lst.append(str(mpi_count))
         lst.append(file_name)
-        each_combination = flatten(each_combination)
-        for i, value in enumerate(each_combination):
+        combination = flatten(combination)
+        for i, value in enumerate(combination):
             lst.append(f"{keys[i]}={value}")
         args.append(lst)
 
@@ -395,13 +392,14 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
                 task_output_list.append(std_config + f"|{item}")
         result.append(task_output_list)
 
-    def recursively_add_txt(temp_lst: list):
+    def recursively_add_txt(items: list):
         res = []
-        for temp_item in temp_lst:
+        for temp_item in items:
             if isinstance(temp_item, list):
+                # Recurse if the item is a list
                 res.append(recursively_add_txt(temp_item))
             else:
-                res.append(temp_item + ".txt")
+                res.append(f"{temp_item}.txt")
         return res
 
     result = recursively_add_txt(result)
@@ -475,7 +473,3 @@ def skip_task_by_list(
 
     # Select and return tasks that have not been completed yet
     return [tasks[i] for i, needed in enumerate(needed_task_indices) if needed]
-
-
-if __name__ == "__main__":
-    doctest.testmod()

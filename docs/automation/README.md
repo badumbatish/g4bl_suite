@@ -109,7 +109,7 @@ place Det rename=_meanMomentum$_meanMomentum|_meanXp$_meanXp z=5921
 The script should start with
 
 ```python3
-from g4blplot import g4blplot
+from g4bl_suite import g4blplot
 ```
 
 

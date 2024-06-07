@@ -34,8 +34,8 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/badumbatish/fermi_proj"
-"Bug Tracker" = "https://github.com/badumbatish/fermi_proj/issues"
+"Homepage" = "https://github.com/badumbatish/g4bl_suite"
+"Bug Tracker" = "https://github.com/badumbatish/g4bl_suite/issues"
 
 [tool.pytest.ini_options]
 addopts = ["--doctest-modules"]

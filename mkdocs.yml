@@ -1,7 +1,7 @@
-site_name: g4blplot
+site_name: g4bl_suite
 
 
-repo_url: https://github.com/badumbatish/fermi_proj
+repo_url: https://github.com/badumbatish/g4bl_suite
 repo_name: 'GitHub'
 theme:
   name: "material"

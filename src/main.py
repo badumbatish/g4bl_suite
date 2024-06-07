@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from g4blplot import g4blplot as plot
+from g4bl_suite import g4blplot as plot
 
 if __name__ == "__main__":
     initial_pion = 100
@@ -133,4 +133,3 @@ if __name__ == "__main__":
     fig.savefig("normalized.pdf", bbox_inches="tight")
     plt.show()
     """
-

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["g4blplot"]
+include = ["g4bl_suite"]
 
 [project]
 name = "jjsm-fermi"

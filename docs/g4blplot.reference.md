@@ -1,1 +1,1 @@
-::: src.g4blplot.g4blplot
+::: src.g4bl_suite.g4blplot

@@ -1,7 +1,5 @@
-import glob
 import os
 from os.path import exists
-from pathlib import Path
 
 from g4bl_suite import g4blplot
 

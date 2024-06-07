@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import mpl_scatter_density
 import numpy as np
 import tqdm
+import doctest
 
 feature_list = [
     "x",
@@ -330,19 +331,30 @@ def automate(
         )
 
 
-def filter_args(arg_lists: list) -> List[List[str]]:
+def filter_args(arg_lists: List[List[str]]) -> List[List[str]]:
     """
-    Returns:
-        a list of list containing string of only type "key=value"
+    Filters each sublist in the input list of lists, returning only those strings
+    that follow the 'key=value' format.
 
+    Args:
+        arg_lists (List[List[str]]): A list of lists, where each sublist contains strings.
+
+    Returns:
+        List[List[str]]: A list of sublists containing strings formatted as 'key=value'.
+
+    Examples:
+    >>> filter_args([["name=John", "age=30"], ["error", "size=medium"]])
+    [['name=John', 'age=30'], ['size=medium']]
+    >>> filter_args([["valid=100", "invalid"], [], ["key=value", "setting"]])
+    [['valid=100'], ['key=value']]
+    >>> filter_args([["123", "check=ok"], ["test=", "=data"]])
+    [['check=ok']]
     """
     result = []
     for lst in arg_lists:
-        sub_list = []
-        for item in lst:
-            if "=" in item:
-                sub_list.append(item)
-        result.append(sub_list)
+        sub_list = [item for item in lst if 0 < item.find('=') < len(item) - 1]
+        if len(sub_list) != 0:
+            result.append(sub_list)
 
     return result
 
@@ -374,7 +386,7 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
             for item in postfix_string_list:
                 task_output_list.append(std_config + f"|{item}")
         result.append(task_output_list)
-    print(result)
+    #print(result)
 
     def recursively_add_txt(lst: list):
         res = []
@@ -414,41 +426,41 @@ def all_file_exists(data_list, data_directory=None, test=False) -> bool:
 
 def get_index_of_needed_tasks(data_list, data_directory=None, test=False) -> List[bool]:
     """
-    Accepts a list of data files, and return a list of index that needs the tasks
+    Determines which tasks need to be executed based on the existence of their associated data files.
 
+    Args:
+        data_files (List[str]): List of data file names or paths associated with tasks.
+        data_directory (str, optional): Directory to prepend to file names for existence checks. Defaults to None.
+        test (bool, optional): Indicates whether this function is being called in a test environment. Defaults to False.
+
+    Returns:
+        List[bool]: A list where each element is a boolean indicating whether the task associated with the corresponding index in `data_files` needs to be executed (True if it does not exist and False otherwise).
     """
-    res_lst = []
-
-    for lst in data_list:
-        if all_file_exists(lst, data_directory, test):
-            res_lst.append(True)
-        else:
-            res_lst.append(False)
-
-    return res_lst
+        # Determine the existence of each file and return the negation (True if file does not exist and hence task is needed)
+    return [bool(all_file_exists(file, data_directory, test)) for file in data_list]
 
 
 def skip_task_by_list(
-    generated_args: list, postfix_string_lst: list, data_directory=None, test=False
-) -> List[List[str]]:
+        tasks: List[str], postfixes: List[str], data_directory: str = None, test: bool = False
+) -> List[str]:
     """
-        For a list of tasks, it returns a new list of tasks that skip over already pre-computed tasks
+    Filters out tasks that have already been computed and returns a list of tasks still needing processing.
+
+    Args:
+        tasks (List[str]): List of task identifiers.
+        postfixes (List[str]): List of postfix strings used to check task completion.
+        data_directory (str, optional): Directory where task outputs are stored. Defaults to None.
+        test (bool, optional): Flag for test mode. Defaults to False.
 
     Returns:
-        A new list of tasks that g4beamline haven't computed
+        List[str]: List of tasks that have not yet been computed.
     """
-    # index_list = get_index_of_needed_tasks(data_list, data_directory, test)
+    filtered_args = filter_args(tasks)
+    task_files = construct_list_files(filtered_args, postfixes)
+    needed_task_indices = get_index_of_needed_tasks(task_files, data_directory, test)
 
-    new_lst = []
+    # Select and return tasks that have not been completed yet
+    return [tasks[i] for i, needed in enumerate(needed_task_indices) if needed]
 
-    filtered_arg_list = filter_args(generated_args)
-    data_list = construct_list_files(
-        filtered_arg_list=filtered_arg_list, postfix_string_list=postfix_string_lst
-    )
-
-    index_list = get_index_of_needed_tasks(data_list, data_directory, test)
-    for index, boolean_value in enumerate(index_list):
-        if boolean_value is True:
-            new_lst.append(generated_args[index])
-
-    return new_lst
+if __name__ == "__main__":
+    doctest.testmod()

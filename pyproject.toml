@@ -37,6 +37,9 @@ classifiers = [
 "Homepage" = "https://github.com/badumbatish/fermi_proj"
 "Bug Tracker" = "https://github.com/badumbatish/fermi_proj/issues"
 
+[tool.pytest.ini_options]
+addopts = ["--doctest-modules"]
+
 
 [tool.mypy]
 ignore_missing_imports = true

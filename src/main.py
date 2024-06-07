@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from g4bl_suite import Automator as plot
+from g4bl_suite.Automator import Automator
 
 if __name__ == "__main__":
     initial_pion = 100
@@ -56,9 +56,16 @@ if __name__ == "__main__":
         ),
     }
 
-    plot.automate(
-        command, param_dict, file_name, total_process_count=10, mpi_count=None
+    automator = (
+        Automator()
+        .set_cmd(command)
+        .set_file_name(file_name)
+        .set_params_dict(param_dict)
     )
+
+    # plot.automate(
+    #     command, param_dict, file_name, total_process_count=10, mpi_count=None
+    # )
 
     """
     magType = ["QuadNORSolOFF",

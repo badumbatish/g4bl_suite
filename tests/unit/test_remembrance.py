@@ -2,7 +2,6 @@ import os
 from os.path import exists
 
 from g4bl_suite import Automator
-from g4bl_suite.Automator import Automator
 
 path = os.path.dirname(os.path.realpath(__file__))  # directory path of the app
 

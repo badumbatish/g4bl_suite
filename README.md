@@ -6,6 +6,18 @@ It doesn't use OOP, only functions. The function mostly manipulates 2D and 1D nu
 
 # Documentation
 See [https://github.com/badumbatish/fermi_proj/](https://badumbatish.github.io/fermi_proj/) for documentation, including installation, usage and development.
+
+## Installation
+
+For latest version
+```
+pip install git+https://github.com/badumbatish/fermi_proj@main
+```
+
+or 
+```
+pip3 install git+https://github.com/badumbatish/fermi_proj@main
+```
 ## Basic set up
 
 ### Set your virtual detector to output ascii text format

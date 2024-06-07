@@ -1,3 +1,4 @@
+import doctest
 import itertools
 import multiprocessing as mp
 import os
@@ -6,10 +7,8 @@ from os.path import exists
 from typing import List
 
 import matplotlib.pyplot as plt
-import mpl_scatter_density
 import numpy as np
 import tqdm
-import doctest
 
 feature_list = [
     "x",
@@ -31,7 +30,8 @@ particle_dict = {"pi-": -211, "mu-": 13, "mu+": -13}
 
 
 def add_text_file(file_name: str, **kwargs):
-    """Returns a 2D numpy array that formats just like the output txt file from G4Beamline and raise exception if file does not exists
+    """Returns a 2D numpy array that formats just like
+        the output txt file from G4Beamline and raise exception if file does not exist
 
     Args:
         file_name:
@@ -57,24 +57,26 @@ def scatter_plot(axes, x_axis, y_axis, heat_map: bool = False):
 
     Args:
         axes :
-            an object subplot from matplotlib that is a
+            an object subplot from matplotlib that is an
         x_axis :
-            1D array that denotes what to plot on the x axis
+            1D array that denotes what to plot on the x-axis
         y_axis :
-            1D array that denotes what to plot on the y axis
+            1D array that denotes what to plot on the y-axis
+        heat_map :
+            A boolean, True if you want to use heat map, defaults to False
 
     Returns:
         Function returns nothing, only plots a graph to the axes
     """
 
-    if heat_map == False:
+    if not heat_map:
         axes.scatter(x_axis, y_axis, rasterized=False)
     else:
         density = axes.scatter_density(x_axis, y_axis)
         plt.colorbar(density, ax=axes, label="Number of points per pixel")
 
 
-def hist_plot(axes, data, xlabel: str = ""):
+def hist_plot(axes, data, x_label: str = ""):
     """
         This function plots histogram in the axes
 
@@ -83,16 +85,23 @@ def hist_plot(axes, data, xlabel: str = ""):
             an axe plot
         data:
             a 1D numpy array
+        x_label:
+            a string for x-label of the histogram plot
 
     Returns:
-        A historgram plot with extra descriptive data of count, mean, std, min, 25,50,75 percentile, and max.
+        A histogram plot with extra descriptive data of count, mean, std, min, 25,50,75 percentile, and max.
     ----------
     """
     axes.hist(data)
-    if xlabel == "":
-        axes.set_xlabel(xlabel)
-        axes.set_ylabel(f"Count of {xlabel}")
-    stats_str = f"Count: {data.size}\nMean: {data.mean():.3f}\nStd: {data.std():.3f}\nMin: {data.min()}\n25%: {np.percentile(data,25)}\n50%: {np.percentile(data,50)}\n75%: {np.percentile(data,75)}\nMax: {data.max()}"
+    if x_label == "":
+        axes.set_xlabel(x_label)
+        axes.set_ylabel(f"Count of {x_label}")
+    stats_str = (
+        f"Count: {data.size}\nMean: {data.mean():.3f}\nStd: "
+        f"{data.std():.3f}\nMin: {data.min()}\n"
+        f"25%: {np.percentile(data, 25)}\n50%: {np.percentile(data, 50)}\n"
+        f"75%: {np.percentile(data, 75)}\nMax: {data.max()}"
+    )
     axes.text(1.01, 0.2, stats_str, transform=plt.gca().transAxes)
 
 
@@ -107,7 +116,7 @@ def set_fig_misc(fig, beam_type, plot_type):
         plot_type :
     Returns:
     """
-    fig.suptitle((f"{beam_type.capitalize()} beam {plot_type}"))
+    fig.suptitle(f"{beam_type.capitalize()} beam {plot_type}")
     fig.supxlabel(f"x {plot_type}")
     fig.supylabel(f"y {plot_type}")
 
@@ -129,8 +138,7 @@ def extract_particle_data(data, particle_name=None, particle_id=None):
     Raises:
         An exception if there is no particle id or particle name
     """
-    mask = None
-    # make a 1D array mask that returns true if the PID is satisfy
+    # make a 1D array mask that returns true if the PID is satisfied
     # [:,7] represents the column of PIDs
     if particle_id is not None:
         mask = data[:, feature_dict["PDGid"]] == particle_id
@@ -153,16 +161,16 @@ def get_feature(data, feature_name):
     return data[:, feature_dict[feature_name]]
 
 
-def get_xangle(data):
+def get_x_angle(data):
     """
     This function returns a 1D array consisting of xp = Px/Pz in milliradian
 
     Uses numpy for its computation
     """
-    Px = data[:, feature_dict["Px"]]
-    Pz = data[:, feature_dict["Pz"]]
+    p_x = data[:, feature_dict["Px"]]
+    p_z = data[:, feature_dict["Pz"]]
 
-    return (Px / Pz) * 1000
+    return (p_x / p_z) * 1000
 
 
 def tuple_zipl(args):
@@ -175,14 +183,14 @@ def tuple_zipl(args):
     return a
 
 
-def get_yangle(data):
+def get_y_angle(data):
     """
     This function returns a 1D array consisting of yp = Py/Pz in milliradian
     """
-    Py = data[:, feature_dict["Py"]]
-    Pz = data[:, feature_dict["Pz"]]
+    p_y = data[:, feature_dict["Py"]]
+    p_z = data[:, feature_dict["Pz"]]
 
-    return (Py / Pz) * 1000
+    return (p_y / p_z) * 1000
 
 
 def get_particle_count(data, particle_name=None, particle_id=None):
@@ -206,10 +214,10 @@ def run_command(args):
     Helper function for automate()
     """
     # print(f"Running {args}")
-    result = subprocess.run(args, stdout=subprocess.DEVNULL)
+    subprocess.run(args, stdout=subprocess.DEVNULL)
 
 
-def isG4BL(cmd: str) -> bool:
+def is_g4bl(cmd: str) -> bool:
     """
     Check if a string representing a command ends in g4bl
     Args:
@@ -220,7 +228,7 @@ def isG4BL(cmd: str) -> bool:
     return cmd.endswith("g4bl")
 
 
-def isG4BLMPI(cmd: str) -> bool:
+def is_g4bl_mpi(cmd: str) -> bool:
     """
     Check if a string representing a command ends in g4blmpi
     Args:
@@ -241,9 +249,6 @@ def generate_args(
     Returns:
         List A of list B of strings, where each list B is 1 config to pass to the command line via subprocess.run
     """
-    for key, value in param_dict.items():
-        key = tuple(value)
-
     keys = []
     for element in param_dict.keys():
         if not isinstance(element, tuple):
@@ -261,20 +266,19 @@ def generate_args(
     combination = list(itertools.product(*param_dict.values()))
 
     # combination =  list(itertools.product(*values))
-    def flatten(A):
+    def flatten(a):
         rt = []
-        for i in A:
-            if isinstance(i, list):
-                rt.extend(flatten(i))
+        for x in a:
+            if isinstance(x, list):
+                rt.extend(flatten(x))
             else:
-                rt.append(i)
+                rt.append(x)
         return rt
 
     args = []
     for each_combination in combination:
-        lst = []
-        lst.append(cmd)
-        if isG4BLMPI(cmd):
+        lst = [cmd]
+        if is_g4bl_mpi(cmd):
             lst.append(str(mpi_count))
         lst.append(file_name)
         each_combination = flatten(each_combination)
@@ -286,7 +290,8 @@ def generate_args(
 
 
 # TODO: Return a function that takes in a configuration of unknown type, and the list of arguments, then output
-# a new list of that g4bl has never computed before, in order for g4bl to not waste computation, and the physicist to not die waiting
+# a new list of that g4bl has never computed before,
+# in order for g4bl to not waste computation, and the physicist to not die waiting
 
 
 def automate(
@@ -301,7 +306,8 @@ def automate(
     """
     Automating, automating, gaslighting, girlbossing, gatekeeping, mmm-kayyyy
 
-    Automate the search space/high parameter space with G4beamline, refers to the link of Automation in the Documentation page
+    Automate the search space/high parameter space with G4Beamline,
+    refers to the link of Automation in the Documentation page
     Links:
         https://badumbatish.github.io/fermi_proj/automation/
     """
@@ -310,14 +316,14 @@ def automate(
     if not (data_directory is None):
         args = skip_task_by_list(args, detector_lst, data_directory)
 
-    process_count = 0
     if mpi_count is None:
         process_count = int(total_process_count)
     else:
         process_count = int(total_process_count / int(mpi_count))
 
     print(
-        f"Creating pool with total process count = {total_process_count}, pool process count = {process_count}, G4BLMPI process count = {mpi_count}"
+        f"Creating pool with total process count = {total_process_count},"
+        f"pool process count = {process_count}, G4BLMPI process count = {mpi_count}"
     )
     with mp.Pool(process_count) as p:
         # color is pastel pink hehe
@@ -352,7 +358,7 @@ def filter_args(arg_lists: List[List[str]]) -> List[List[str]]:
     """
     result = []
     for lst in arg_lists:
-        sub_list = [item for item in lst if 0 < item.find('=') < len(item) - 1]
+        sub_list = [item for item in lst if 0 < item.find("=") < len(item) - 1]
         if len(sub_list) != 0:
             result.append(sub_list)
 
@@ -361,8 +367,10 @@ def filter_args(arg_lists: List[List[str]]) -> List[List[str]]:
 
 def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
     """
-    Constructs a list (1) of lists (2) of lists (3), where lists (3) represents the files that a batch outputs, lists (2) represents each command to the terminal.
-    This function essentially constructs a list of files from the argument list generated by generate_args() and filtered via filter_args()
+    Constructs a list (1) of lists (2) of lists (3), where lists (3) represents the files
+        that a batch outputs, lists (2) represents each command to the terminal.
+    This function essentially constructs a list of files from the argument list generated by generate_args()
+        and filtered via filter_args()
     Check tests/unit_test/test_remembrance.py -> test_construct_list_files()
     """
     # Constructor list file
@@ -386,15 +394,14 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
             for item in postfix_string_list:
                 task_output_list.append(std_config + f"|{item}")
         result.append(task_output_list)
-    #print(result)
 
-    def recursively_add_txt(lst: list):
+    def recursively_add_txt(temp_lst: list):
         res = []
-        for item in lst:
-            if type(item) == list:
-                res.append(recursively_add_txt(item))
+        for temp_item in temp_lst:
+            if isinstance(temp_item, list):
+                res.append(recursively_add_txt(temp_item))
             else:
-                res.append(item + ".txt")
+                res.append(temp_item + ".txt")
         return res
 
     result = recursively_add_txt(result)
@@ -404,7 +411,8 @@ def construct_list_files(filtered_arg_list: list, postfix_string_list=None):
 def all_file_exists(data_list, data_directory=None, test=False) -> bool:
     """
     Returns:
-        A boolean value that returns True if all the files in data_list, located in data_directory. It'll return false if one or more files is not present.
+        A boolean value that returns True if all the files in data_list,
+         located in data_directory. It'll return false if one or more files is not present.
 
 
     """
@@ -429,20 +437,26 @@ def get_index_of_needed_tasks(data_list, data_directory=None, test=False) -> Lis
     Determines which tasks need to be executed based on the existence of their associated data files.
 
     Args:
-        data_files (List[str]): List of data file names or paths associated with tasks.
+        data_list (List[str]): List of data file names or paths associated with tasks.
         data_directory (str, optional): Directory to prepend to file names for existence checks. Defaults to None.
         test (bool, optional): Indicates whether this function is being called in a test environment. Defaults to False.
 
     Returns:
-        List[bool]: A list where each element is a boolean indicating whether the task associated with the corresponding index in `data_files` needs to be executed (True if it does not exist and False otherwise).
+        List[bool]: A list where each element is a boolean indicating
+        whether the task associated with the corresponding index in `data_files` needs to be executed
+        (True if it does not exist and False otherwise).
     """
-        # Determine the existence of each file and return the negation (True if file does not exist and hence task is needed)
+    # Determine the existence of each file
+    # and return the negation (True if file does not exist and hence task is needed)
     return [bool(all_file_exists(file, data_directory, test)) for file in data_list]
 
 
 def skip_task_by_list(
-        tasks: List[str], postfixes: List[str], data_directory: str = None, test: bool = False
-) -> List[str]:
+    tasks: List[List[str]],
+    postfixes: List[str],
+    data_directory: str = None,
+    test: bool = False,
+) -> List[List[str]]:
     """
     Filters out tasks that have already been computed and returns a list of tasks still needing processing.
 
@@ -461,6 +475,7 @@ def skip_task_by_list(
 
     # Select and return tasks that have not been completed yet
     return [tasks[i] for i, needed in enumerate(needed_task_indices) if needed]
+
 
 if __name__ == "__main__":
     doctest.testmod()

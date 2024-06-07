@@ -7,6 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+src/jjsm_fermi.egg-info
 .Python
 build/
 develop-eggs/
@@ -118,6 +119,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.idea/
 .env
 .venv
 env/

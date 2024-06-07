@@ -26,10 +26,10 @@ See [https://github.com/badumbatish/fermi_proj/](https://badumbatish.github.io/f
 > place Det **rename=desired_file_name** z=5921
 
 ## Usage
+
 ```python
 from g4blplot import g4blplot as plot
 import matplotlib.pyplot as plt
-
 
 particle_type = "pi-"
 
@@ -41,10 +41,11 @@ data = plot.extract_particle_data(raw_data, particle_type)
 
 # get the x position and x angle of pion-
 x = plot.get_feature(data, 'x')
-xp = plot.get_xangle(data)
+xp = plot.get_x_angle(data)
 
 # make a plot
-pos_fig, pos_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained", subplot_kw=dict(projection="scatter_density"))
+pos_fig, pos_axes = plt.subplots(1, sharex=True, sharey=True, layout="constrained",
+                                 subplot_kw=dict(projection="scatter_density"))
 
 # scatter it
 plot.scatter_plot(pos_axes, x, xp)

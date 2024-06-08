@@ -130,20 +130,23 @@ g4bl-suite Data Analyzer
 
 ```python
 # Import the Data Analyzer like this.
+import numpy as np
 from g4bl_suite import DataAnalyzer
 
 # Initialize a DataAnalyzer with your data's file name like this
 da = DataAnalyzer("mydata.txt")
 
-# Get the raw data
-raw_data = da.get_data()
+# Get the raw data, where the type is np.ndarray
+raw_data : np.ndarray = da.get_data()
+
 # Extract your data, do things with them.
-pi_minus_data = da.extract_particle_data(raw_data, "pi-")
+pi_minus_data: np.ndarray = da.extract_particle_data(raw_data, "pi-")
 
-# This provides common utilities
+# Check if a particle exists, the value returned is boolean (True or False)
+data_has_mu: bool = da.particle_exists(raw_data, "mu-")
 
-# Collect the x momentum of the pi- data
-x_angles_pi = da.get_x_angle(pi_minus_data)
+# Collect the x momentum data of pi-
+x_angles_pi : np.ndarray = da.get_x_angle(pi_minus_data)
 ```
 
 

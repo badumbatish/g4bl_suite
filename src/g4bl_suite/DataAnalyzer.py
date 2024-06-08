@@ -59,6 +59,31 @@ class DataAnalyzer:
         return particle_data
 
     @staticmethod
+    def particle_exists(data, particle_name=None, particle_id=None):
+        """
+        Checks if a certain particle identified by its name or ID exists within the provided data.
+
+        Args:
+            data (np.ndarray): The numpy array containing the raw data.
+            particle_name (str, optional): The name of the particle to check. Default is None.
+            particle_id (int, optional): The ID of the particle to check. Default is None.
+
+        Returns:
+            bool: True if the particle exists in the data, False otherwise.
+
+        Raises:
+            ValueError: If both particle_id and particle_name are None.
+        """
+        if particle_id is not None:
+            mask = data[:, feature_dict["PDGid"]] == particle_id
+        elif particle_name is not None:
+            mask = data[:, feature_dict["PDGid"]] == particle_dict[particle_name]
+        else:
+            raise ValueError("Both particle id and particle name cannot be None.")
+
+        return np.any(mask)
+
+    @staticmethod
     def get_feature(data, feature_name):
         """
         Returns a 1D NumPy array that is the feature in the original 2D NumPy array

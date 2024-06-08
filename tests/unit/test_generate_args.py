@@ -1,4 +1,5 @@
-from g4bl_suite.Automator import Automator
+from g4bl_suite import Automator
+from g4bl_suite import DataAnalyzer
 
 g4bl_cmd = "g4bl"
 g4blmpi_cmd = "g4blmpi"

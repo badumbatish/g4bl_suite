@@ -97,8 +97,10 @@ I then wrote g4bl-suite to help Erica and Wes with data analyzing.
 
 <!-- end_slide -->
 
-g4bl-suite
+What is g4bl-suite
 ===
+
+A collection of user-friendly functionalities for scripting g4beamline and data analysis.
 
 Runs straight in your python code. Whether it is `.py` python file or `.ipynb` notebook.
 So you can ultilize python's strong scripting capabilities.
@@ -121,8 +123,28 @@ g4bl-suite installation and usage
 # In your terminal, with python and pip installed
 pip install git+https://github.com/badumbatish/fermi_proj@main
 ```
+<!-- end_slide -->
+
+g4bl-suite Data Analyzer
+===
 
 ```python
+# Import the Data Analyzer like this.
+from g4bl_suite import DataAnalyzer
 
+# Initialize a DataAnalyzer with your data's file name like this
+da = DataAnalyzer("mydata.txt")
+
+# Get the raw data
+raw_data = da.get_data()
+# Extract your data, do things with them.
+pi_minus_data = da.extract_particle_data(raw_data, "pi-")
+
+# This provides common utilities
+
+# Collect the x momentum of the pi- data
+x_angles_pi = da.get_x_angle(pi_minus_data)
 ```
+
+
 <!-- end_slide -->

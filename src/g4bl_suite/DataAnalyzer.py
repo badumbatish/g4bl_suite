@@ -19,14 +19,21 @@ class DataAnalyzer:
                 a 2D numpy array
         """
         if exists(file_name):
-            self.data = np.genfromtxt(fname=file_name, **kwargs)
+            self.raw_data = np.genfromtxt(fname=file_name, **kwargs)
+            self.data = self.raw_data
         else:
             raise Exception(f"The file {file_name} does not exist")
 
         if len(self.data.shape) == 1:
-            self.data = self.data[np.newaxis, :]
 
-    def extract_particle_data(self, particle_name=None, particle_id=None):
+            self.raw_data = self.raw_data[np.newaxis, :]
+            self.data = self.raw_data
+
+    def get_data(self) -> np.ndarray:
+        return self.data
+
+    @staticmethod
+    def extract_particle_data(data, particle_name=None, particle_id=None):
         """Extracts a numpy array of only a certain particle out of a raw data
 
         Args:
@@ -40,54 +47,59 @@ class DataAnalyzer:
         # make a 1D array mask that returns true if the PID is satisfied
         # [:,7] represents the column of PIDs
         if particle_id is not None:
-            mask = self.data[:, feature_dict["PDGid"]] == particle_id
+            mask = data[:, feature_dict["PDGid"]] == particle_id
         elif particle_name is not None:
-            mask = self.data[:, feature_dict["PDGid"]] == particle_dict[particle_name]
+            mask = data[:, feature_dict["PDGid"]] == particle_dict[particle_name]
         else:
             raise Exception(f"Particle id or particle name is not present")
 
         # pass the mask to the raw data to select the PID-satisfying rows, then : to select all the columns of that row
-        particle_data = self.data[mask, :]
+        particle_data = data[mask, :]
 
         return particle_data
 
-    def get_feature(self, feature_name):
+    @staticmethod
+    def get_feature(data, feature_name):
         """
         Returns a 1D NumPy array that is the feature in the original 2D NumPy array
 
         """
-        return self.data[:, feature_dict[feature_name]]
+        return data[:, feature_dict[feature_name]]
 
-    def get_x_angle(self):
+    @staticmethod
+    def get_x_angle(data):
         """
         This function returns a 1D array consisting of xp = Px/Pz in milliradian
 
         Uses numpy for its computation
         """
-        p_x = self.data[:, feature_dict["Px"]]
-        p_z = self.data[:, feature_dict["Pz"]]
+
+        p_x = data[:, feature_dict["Px"]]
+        p_z = data[:, feature_dict["Pz"]]
 
         return (p_x / p_z) * 1000
 
-    def get_y_angle(self):
+    @staticmethod
+    def get_y_angle(data):
         """
         This function returns a 1D array consisting of yp = Py/Pz in milliradian
         """
-        p_y = self.data[:, feature_dict["Py"]]
-        p_z = self.data[:, feature_dict["Pz"]]
+        p_y = data[:, feature_dict["Py"]]
+        p_z = data[:, feature_dict["Pz"]]
 
         return (p_y / p_z) * 1000
 
-    def get_particle_count(self, particle_name=None, particle_id=None):
+    @staticmethod
+    def get_particle_count(data, particle_name=None, particle_id=None):
         """
         Get the count of a particular particle
 
         """
         if particle_id is not None:
-            res = np.count_nonzero(self.data[:, feature_dict["PDGid"]] == particle_id)
+            res = np.count_nonzero(data[:, feature_dict["PDGid"]] == particle_id)
         elif particle_name is not None:
             res = np.count_nonzero(
-                self.data[:, feature_dict["PDGid"]] == particle_dict[particle_name]
+                data[:, feature_dict["PDGid"]] == particle_dict[particle_name]
             )
         else:
             raise Exception(f"Particle id or particle name is not present")

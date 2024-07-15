@@ -130,7 +130,7 @@ class Automator:
         Links:
             https://badumbatish.github.io/fermi_proj/automation/
         """
-        args = self.generate_args(param_dict, file_name, str(mpi_count))
+        args = self.generate_args(str(mpi_count))
 
         if not (data_directory is None):
             args = self.skip_task_by_list(args, detector_lst, data_directory)
@@ -142,7 +142,8 @@ class Automator:
 
         print(
             f"Creating pool with total process count = {total_process_count},"
-            f"pool process count = {process_count}, G4BLMPI process count = {mpi_count}"
+            f"pool process count = {
+                process_count}, G4BLMPI process count = {mpi_count}"
         )
         with mp.Pool(process_count) as p:
             # color is pastel pink hehe
@@ -178,7 +179,8 @@ class Automator:
         """
         result = []
         for lst in arg_lists:
-            sub_list = [item for item in lst if 0 < item.find("=") < len(item) - 1]
+            sub_list = [item for item in lst if 0 <
+                        item.find("=") < len(item) - 1]
             if len(sub_list) != 0:
                 result.append(sub_list)
 

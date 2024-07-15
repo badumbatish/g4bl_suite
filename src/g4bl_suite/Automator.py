@@ -142,8 +142,8 @@ class Automator:
 
         print(
             f"Creating pool with total process count = {total_process_count},"
-            f"pool process count = {
-                process_count}, G4BLMPI process count = {mpi_count}"
+            f"pool process count = {"
+                "process_count}, G4BLMPI process count = {mpi_count}"
         )
         with mp.Pool(process_count) as p:
             # color is pastel pink hehe

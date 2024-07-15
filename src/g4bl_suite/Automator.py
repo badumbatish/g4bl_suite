@@ -115,8 +115,8 @@ class Automator:
 
     def automate(
         self,
-        param_dict: dict,
-        file_name: str,
+        param_dict: dict = None,
+        file_name: str = None,
         total_process_count=1,
         mpi_count=None,
         detector_lst=None,
@@ -130,6 +130,14 @@ class Automator:
         Links:
             https://badumbatish.github.io/fermi_proj/automation/
         """
+        if param_dict is None:
+            param_dict = self.params_dict
+        if file_name is None:
+            file_name = self.file_name
+
+        if (param_dict is None) or (file_name is None):
+            raise ValueError(
+                "param_dict and file_name must be set either through automate() or set_params_dict() and set_file_name()")
         args = self.generate_args(str(mpi_count))
 
         if not (data_directory is None):
